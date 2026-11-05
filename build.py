@@ -201,7 +201,8 @@ def reg_inner(P, pid, inline):
     <div class="step3">
       <div class="eyebrow">Step 3 of 3</div>
       <h3>Salamat, <span data-name></span>.</h3>
-      <p class="lede" style="font-size:14px;margin-top:10px">We will check your payment and send your seat details to your mobile number and email once the dates are set. Keep your GCash receipt, because we may ask you for a screenshot.</p>
+      <p class="lede" style="font-size:14px;margin-top:10px">We will check your payment and send your seat details to your mobile number and email once the dates are set. Messenger should open now. Send your GCash receipt screenshot and your reference code (<b data-ref></b>) there.</p>
+      <a class="btn" href="https://m.me/tradenexx" target="_blank" rel="noopener">Open Messenger</a>
       {'<button class="btn ghost" type="button" data-reset>Register someone else</button>' if inline else '<button class="btn ghost" type="button" data-close>Close</button>'}
     </div>"""
 

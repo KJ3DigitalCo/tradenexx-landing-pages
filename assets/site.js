@@ -431,7 +431,7 @@
       if (isDlg) box.scrollTo({ top: 0 });
       else box.scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'center' });
     };
-    const fill = (ref, name) => { $('[data-ref]', box).textContent = ref; $$('[data-name]', box).forEach(n => n.textContent = name.split(' ')[0]); };
+    const fill = (ref, name) => { $$('[data-ref]', box).forEach(n => n.textContent = ref); $$('[data-name]', box).forEach(n => n.textContent = name.split(' ')[0]); };
     mob.addEventListener('input', () => { mob.value = fmtMobile(normMobile(mob.value).slice(0, 11)); });
 
     form.addEventListener('submit', async e => {
@@ -464,7 +464,7 @@
       btn.disabled = false; btn.textContent = 'Continue to payment';
       toStep('2');
     });
-    $('[data-paid]', box).addEventListener('click', () => toStep('3'));
+    $('[data-paid]', box).addEventListener('click', () => { toStep('3'); window.open('https://m.me/tradenexx', '_blank', 'noopener'); });
     const reset = $('[data-reset]', box);
     if (reset) reset.addEventListener('click', () => { form.reset(); err.textContent = ''; toStep('1'); });
   }
