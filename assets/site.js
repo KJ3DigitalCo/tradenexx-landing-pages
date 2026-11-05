@@ -358,9 +358,16 @@
       b.remove();
     });
     box.appendChild(b);
-    // the first tap, click or key press anywhere counts as the gesture browsers need, so use it to turn the sound on
-    const go = () => { if (b.isConnected) b.click(); };
-    ['pointerup', 'keydown'].forEach(ev => addEventListener(ev, go, { once: true, capture: true }));
+    // the first click, tap or key press anywhere is the gesture browsers need, so use it to turn the sound on.
+    // A tap on the video itself only unmutes (it must not also pause it); the button handles its own click.
+    const go = e => {
+      if (!b.isConnected) return rm();
+      if (b.contains(e.target)) return;
+      if (e.type === 'click' && box.contains(e.target)) e.stopPropagation();
+      b.click(); rm();
+    };
+    const rm = () => ['click', 'keydown'].forEach(ev => removeEventListener(ev, go, true));
+    ['click', 'keydown'].forEach(ev => addEventListener(ev, go, true));
   }
   function mountVideo(box, muted) {
     if (box.dataset.state === 'playing' || !box.dataset.src) return;
