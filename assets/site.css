@@ -504,3 +504,6 @@ footer a{display:inline-block;padding:12px 0;font-size:13px}
 }
 .reg-inline .lede{margin:0;text-align:left;max-width:none}
 .price{will-change:translate}
+
+/* the hero after the video has opened once: a single screen, no scroll-driven pin */
+.hero3.done{height:100vh;height:100svh}

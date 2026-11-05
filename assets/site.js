@@ -16,20 +16,15 @@
 
   addEventListener('scroll', () => { const sd = scrollY > 40; if (sd !== navSolid) { navSolid = sd; nav.classList.toggle('solid', sd); } }, { passive: true });
 
-  /* ---------- EXPAND-HERO: the video frame opens as the page scrolls (transform/clip only, no layout) ---------- */
+  /* ---------- EXPAND-HERO: the video frame opens as the page scrolls (transform/clip only, no layout).
+     Once it is fully open it stays open: the hero turns into one plain screen and never shrinks again. ---------- */
   const h3 = $('.hero3');
   if (h3 && !reduced.matches) {
-    const root = document.documentElement, vf = $('.vframe', h3), t1 = $('.t1', h3), t2 = $('.t2', h3);
-    let ticking = false, last = -1;
+    const vf = $('.vframe', h3), t1 = $('.t1', h3), t2 = $('.t2', h3), vbox = $('.vid', h3);
+    let ticking = false, last = -1, latched = false;
     const ease = p => p * p * (3 - 2 * p);
-    function draw() {
-      ticking = false;
-      const W = innerWidth, H = innerHeight, rect = h3.getBoundingClientRect();
-      const p = Math.round(clamp(-rect.top / (rect.height - H), 0, 1) * 500) / 500;
-      const vbox = $('.vid', h3);
-      if (p >= 0.98) { if (vbox.dataset.state === 'ready') mountVideo(vbox, !userActive()); }
-      else if (p < 0.55 && vbox.dataset.state === 'playing') stopVideo(vbox);
-      if (p === last) return; last = p;
+    function apply(p) {
+      const W = innerWidth, H = innerHeight;
       const e = ease(p), small = W < 768;
       const w0 = Math.min(300, W * 0.72), hh0 = Math.min(400, H * 0.5);
       const w1 = W * (small ? 0.94 : 0.95), h1 = H * (small ? 0.62 : 0.78);
@@ -43,14 +38,36 @@
       const tx = (p * 105).toFixed(2);
       t1.style.transform = 'translate3d(-' + tx + 'vw,0,0)';
       t2.style.transform = 'translate3d(' + tx + 'vw,0,0)';
-      const fade = (1 - smooth(p, 0.55, 0.92)).toFixed(2);
-      t1.style.opacity = t2.style.opacity = fade;
+      t1.style.opacity = t2.style.opacity = (1 - smooth(p, 0.55, 0.92)).toFixed(2);
       h3.style.setProperty('--io', (1 - smooth(p, 0, 0.22)).toFixed(2));
       h3.style.setProperty('--bgo', (1 - smooth(p, 0, 0.9)).toFixed(2));
     }
-    const kick = () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } };
+    function latch() {
+      if (latched) return;
+      latched = true;
+      apply(1);
+      const y = scrollY, before = h3.offsetHeight;
+      h3.classList.add('done');                                   // the tall scroll area goes away: the hero is one screen now
+      const removed = before - h3.offsetHeight;
+      window.scrollTo({ top: Math.max(0, y - removed), behavior: 'instant' });   // keep everything exactly where it appears on screen
+      // from here on the video only plays while it is on screen
+      new IntersectionObserver(es => es.forEach(en => {
+        if (en.intersectionRatio >= 0.6) { if (vbox.dataset.state === 'ready') mountVideo(vbox, !userActive()); }
+        else if (en.intersectionRatio < 0.25 && vbox.dataset.state === 'playing') stopVideo(vbox);
+      }), { threshold: [0, 0.25, 0.6] }).observe(h3);
+    }
+    function draw() {
+      ticking = false;
+      if (latched) return;
+      const rect = h3.getBoundingClientRect();
+      const p = Math.round(clamp(-rect.top / (rect.height - innerHeight), 0, 1) * 500) / 500;
+      if (p >= 0.98) { latch(); return; }
+      if (p === last) return; last = p;
+      apply(p);
+    }
+    const kick = () => { if (!ticking && !latched) { ticking = true; requestAnimationFrame(draw); } };
     addEventListener('scroll', kick, { passive: true });
-    addEventListener('resize', () => { last = -1; kick(); });
+    addEventListener('resize', () => { if (latched) apply(1); else { last = -1; kick(); } });
     draw();
   }
 
