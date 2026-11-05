@@ -533,3 +533,7 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
   .ba{opacity:1;filter:none;transition:none}
 }
 @media (max-width:760px){.gal-col img{aspect-ratio:3/5}.gal-col{gap:6px}.gal-grid{gap:6px}.gal-col:nth-child(2){margin-top:-30%}}
+
+/* reading progress: a thin bar across the very top that fills as you scroll the page */
+.progress{position:fixed;left:0;top:0;right:0;height:4px;z-index:60;pointer-events:none;background:rgba(255,255,255,.08)}
+.progress i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,#214EA2,#7fa2ff 55%,#ffffff);will-change:transform}

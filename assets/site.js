@@ -16,6 +16,22 @@
 
   addEventListener('scroll', () => { const sd = scrollY > 40; if (sd !== navSolid) { navSolid = sd; nav.classList.toggle('solid', sd); } }, { passive: true });
 
+  /* ---------- PROGRESS-BAR: how far down the page you are (the page height can change, so it is measured each time) ---------- */
+  const bar = $('.progress i');
+  if (bar) {
+    let pt = false, pl = -1;
+    const drawBar = () => {
+      pt = false;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      const p = max > 0 ? clamp(scrollY / max, 0, 1) : 0, q = Math.round(p * 1000) / 1000;
+      if (q !== pl) { pl = q; bar.style.transform = 'scaleX(' + q + ')'; }
+    };
+    const kickBar = () => { if (!pt) { pt = true; requestAnimationFrame(drawBar); } };
+    addEventListener('scroll', kickBar, { passive: true });
+    addEventListener('resize', kickBar);
+    drawBar();
+  }
+
   /* ---------- EXPAND-HERO: the video frame opens as the page scrolls (transform/clip only, no layout).
      Once it is fully open it stays open: the hero turns into one plain screen and never shrinks again. ---------- */
   const h3 = $('.hero3');

@@ -248,6 +248,7 @@ def build(key, P):
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><i></i></div>
 <div class="env" aria-hidden="true"></div>
 <nav class="top" aria-label="Main">
   <a class="logo-plate" href="./" aria-label="Tradenexx home"><img src="../assets/img/logo.png" alt="Tradenexx" width="301" height="250"></a>
