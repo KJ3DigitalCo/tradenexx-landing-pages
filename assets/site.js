@@ -237,7 +237,7 @@
   /* ---------- FLOW: each section pins when its bottom reaches the screen bottom; the next one swings in from 30deg to flat ---------- */
   $$('.flow').forEach(box => {
     if (reduced.matches || /[?&]plain\b/.test(location.search)) return;   // ?plain turns the scroll effects off (for testing)
-    const secs = [...box.children].map((sec, i, all) => {
+    const secs = [...box.children].filter(sec => !sec.matches('.final')).map((sec, i, all) => {   // the sign-up form stays a plain section: browsers' autofill works best on fields with no transformed ancestors
       const s = document.createElement('div'), r = document.createElement('div');
       s.className = 'flow-s' + (i < all.length - 1 ? ' pin' : ''); s.style.zIndex = i + 1; r.className = 'flow-r';
       box.insertBefore(s, sec); r.appendChild(sec); s.appendChild(r);
