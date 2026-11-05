@@ -350,7 +350,12 @@
     b.type = 'button'; b.className = 'vid-unmute';
     b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg><span>Tap for sound</span>';
     b.addEventListener('click', () => {
-      if (el.tagName === 'VIDEO') { el.muted = false; el.play().catch(() => {}); }
+      if (el.tagName === 'VIDEO') {
+        el.muted = false; el.play().catch(() => {});
+        // the same tap can also reach the player's own pause toggle (touch devices): undo any pause for a moment
+        const keep = () => el.play().catch(() => {});
+        el.addEventListener('pause', keep); setTimeout(() => el.removeEventListener('pause', keep), 900);
+      }
       else if (yt) {
         const send = (func, args) => el.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
         send('unMute', []); send('setVolume', [100]); send('playVideo', []);
