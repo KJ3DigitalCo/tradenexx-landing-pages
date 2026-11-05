@@ -558,7 +558,7 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
 .flow.on{position:relative;background:#03071a;overflow:clip}
 .flow.on>.flow-s{position:relative}
 .flow.on>.flow-s.pin{position:sticky}
-.flow.on .flow-r{transform-origin:0 100%}
+.flow.on .flow-r,.flow.on>.final{transform-origin:0 100%}
 
 /* coach section: slow drifting light (aurora) over a faint grid, no circles */
 .aur-sec{position:relative;overflow:hidden}
