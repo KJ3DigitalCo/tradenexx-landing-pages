@@ -243,9 +243,8 @@
       box.insertBefore(s, sec); r.appendChild(sec); s.appendChild(r);
       return { s, r, i };
     });
-    // the sign-up form is not wrapped: it swings in by turning itself, and is a plain section again once it has settled
-    const tail = $('.final', box);
-    if (tail) { tail.style.zIndex = secs.length + 1; secs.push({ s: tail, r: tail, i: secs.length }); }
+    // the sign-up form section is left alone by this script (see the CSS: only its background swings in, so the form's own ancestors never move)
+    const tail = $('.final', box); if (tail) tail.style.zIndex = secs.length + 1;
     box.classList.add('on');
     let ticking = false;
     const fit = () => secs.forEach(o => { if (o.s.classList.contains('pin')) o.s.style.top = Math.min(0, innerHeight - o.s.offsetHeight) + 'px'; });
