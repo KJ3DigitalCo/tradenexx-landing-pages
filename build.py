@@ -399,7 +399,6 @@ def build(key, P):
 </main>
 
 <footer><div class="wrap">
-  <div><a href="{P['other']}">{h(P['other_label'])}</a></div>
   <p class="risk">{h(RISK)}</p>
   <p>{h(COMPANY_LINE)} © 2026 Tradenexx.</p>
 </div></footer>
