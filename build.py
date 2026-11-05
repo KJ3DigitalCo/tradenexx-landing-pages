@@ -338,7 +338,7 @@ def build(key, P):
   </div>
 </div></section>
 
-<section class="s t-navy d-rings reveal"><div class="deco" aria-hidden="true">{RINGS}</div><div class="wrap coach">
+<section class="s t-navy aur-sec reveal"><div class="aur" aria-hidden="true"><i></i><i></i><i></i></div><div class="wrap coach">
   <div class="ph rv"><img src="../assets/img/coach.jpg" alt="Coach Alex Uy, founder of Tradenexx" loading="lazy" width="720" height="923"></div>
   <div>
     <div class="eyebrow rv">Your coach</div>
@@ -365,7 +365,7 @@ def build(key, P):
 </div></section>
 
 <section class="final t-cta" id="join">
-  <div class="deco" aria-hidden="true">{RINGS}</div>
+  <div class="aur" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="final-grid">
     <div class="final-copy">
       <div class="eyebrow">Seats open</div>
