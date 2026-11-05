@@ -599,3 +599,7 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
 .tvf figcaption{display:flex;flex-direction:column;gap:6px;margin-top:14px}
 .tvf figcaption b{font:700 18px/1.2 var(--head)}
 @media(max-width:640px){.tvs{grid-template-columns:minmax(0,320px)}}
+
+/* phone polish: play button sits below the headline, bullets line up */
+@media (max-width:760px){.vframe .vid .vid-play{justify-content:flex-end;padding:0 0 calc(var(--cb,28vh) + 36px)}}
+@media (max-width:860px){.final-points{justify-items:start;width:fit-content;margin-inline:auto}}
