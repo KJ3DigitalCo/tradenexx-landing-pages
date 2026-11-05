@@ -603,3 +603,9 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
 /* phone polish: play button sits below the headline, bullets line up */
 @media (max-width:760px){.vframe .vid .vid-play{justify-content:flex-end;padding:0 0 calc(var(--cb,28vh) + 36px)}}
 @media (max-width:860px){.final-points{justify-items:start;width:fit-content;margin-inline:auto}}
+
+/* bottom row: the outer photos slide out to the far left and far right (desktop) */
+@media (min-width:761px){
+  .gal-col:nth-child(1) img:nth-child(3){transform:translateX(-9%)}
+  .gal-col:nth-child(3) img:nth-child(3){transform:translateX(9%)}
+}
