@@ -641,9 +641,10 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
 
 /* moving lights running around the registration form's border */
 @property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
-.reg-inline::before,.reg-inline::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:2px;pointer-events:none;
+.reg-inline::before,.reg-inline::after,dialog.reg::before,dialog.reg::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:2px;pointer-events:none;
   background:conic-gradient(from var(--ang),transparent 0,#4f86ff 7%,#fff 11%,transparent 19%,transparent 50%,#4f86ff 57%,#fff 61%,transparent 69%);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
-.reg-inline::after{filter:blur(9px);opacity:.85}
-@media (prefers-reduced-motion:no-preference){.reg-inline::before,.reg-inline::after{animation:regspin 6s linear infinite}}
+.reg-inline::after,dialog.reg::after{filter:blur(9px);opacity:.85}
+dialog.reg::before,dialog.reg::after{inset:0}
+@media (prefers-reduced-motion:no-preference){.reg-inline::before,.reg-inline::after,dialog.reg::before,dialog.reg::after{animation:regspin 6s linear infinite}}
 @keyframes regspin{to{--ang:360deg}}
