@@ -24,7 +24,7 @@ FORMS = {
 # Leave "" to show the "coming soon" placeholder. POSTER is optional (an image path); the coach photo is the default.
 SAMPLE = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"   # free CC0 sample clip, swap for the real video
 VIDEOS = {"webinar": {"src": SAMPLE, "poster": "../assets/img/zoom4.jpg"},
-          "event":   {"src": SAMPLE, "poster": ""}}
+          "event":   {"src": SAMPLE, "poster": "../assets/img/group.jpg"}}
 PRICE         = 500
 COMPANY_LINE  = "Tradenexx is registered in the United Kingdom (Companies House no. 17483940)."
 
@@ -125,7 +125,7 @@ PAGES = {
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
     seat="Live training seat", tbd="Date and venue announced soon",
     proof_h="This is what the room looks like.", proof_p="Moments from past live trainings led by Coach Alex.",
-    proof_order=["workshop", "laptops", "award", "hall", "cert", "group", "selfie", "class", "playbook"],
+    proof_order=["workshop", "laptops", "award", "hall", "cert", "deskselfie", "selfie", "class", "playbook"],
     faq=[("Is this an investment scheme?", "No. You do not give us money to trade. This is education, tools and coaching. Your trading money stays in your own broker account, in your own name."),
          ("Where and when is it?", "The date and venue are announced soon. People who register hear first."),
          ("What should I bring?", "Your laptop. A Windows laptop works best. We help you set up MT5 in the room, and the full details come with your confirmation."),
