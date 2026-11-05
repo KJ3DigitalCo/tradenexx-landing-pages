@@ -548,3 +548,14 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
 
 /* in the final section .gp is a direct child, so keep it behind the content */
 .final>.gp{position:absolute;inset:0;z-index:0}
+
+/* stacked sections: the first stays pinned and shrinks away while the second rises over it and grows to full size */
+.stack.on{position:relative;background:#03071a;overflow:clip}
+.stack.on>.stack-a{position:sticky;top:0;transform-origin:50% 50%;will-change:transform}
+.stack.on>.stack-b{position:relative;z-index:2;transform-origin:50% 0;will-change:transform;border-radius:30px 30px 0 0}
+
+/* flow: sections pin in turn and the next swings up from the bottom-left corner */
+.flow.on{position:relative;background:#03071a;overflow:clip}
+.flow.on>.flow-s{position:relative}
+.flow.on>.flow-s.pin{position:sticky}
+.flow.on .flow-r{transform-origin:0 100%;will-change:transform}

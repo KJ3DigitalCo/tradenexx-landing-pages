@@ -318,6 +318,7 @@ def build(key, P):
   </div>
 </div></section>
 
+<div class="stack">
 <section class="s t-pale d-stripes fx reveal">
   <div class="dr-root dr-local" aria-hidden="true"><canvas class="dr-bloom"></canvas><canvas class="dr-main"></canvas><div class="dr-vignette"></div><div class="dr-grain"></div></div>
   <div class="wrap">
@@ -344,9 +345,11 @@ def build(key, P):
     <ul class="facts rv">{facts}</ul>
   </div>
 </div></section>
+</div>
 
 <section class="s t-white gal-sec" aria-label="Photos from past trainings">{gallery_html(P["proof_order"], P["proof_h"], P["proof_p"])}</section>
 
+<div class="flow">
 <section class="s t-blue d-wave reveal"><div class="wrap">
   <div class="eyebrow rv">How to join</div>
   <h2 class="rv">Three steps. About two minutes.</h2>
@@ -359,8 +362,7 @@ def build(key, P):
   <div class="faq">{faq}</div>
 </div></section>
 
-<section class="final t-cta gp-sec" id="join">
-  <div class="gp" aria-hidden="true" data-avoid=".final .eyebrow, .final h2, .final .lede, .final-points li"><canvas></canvas></div>
+<section class="final t-cta" id="join">
   <div class="deco" aria-hidden="true">{RINGS}</div>
   <div class="final-grid">
     <div class="final-copy">
@@ -376,6 +378,7 @@ def build(key, P):
     </div>
   </div>
 </section>
+</div>
 </main>
 
 <footer><div class="wrap">

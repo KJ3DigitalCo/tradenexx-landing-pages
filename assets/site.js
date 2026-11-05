@@ -211,6 +211,60 @@
     measure();
   });
 
+  /* ---------- STACK-SCROLL: section A stays pinned and shrinks; section B rises over it, growing from 80% to full ---------- */
+  $$('.stack').forEach(st => {
+    if (reduced.matches) return;
+    const A = st.children[0], B = st.children[1];
+    A.classList.add('stack-a'); B.classList.add('stack-b'); st.classList.add('on');
+    let ticking = false, last = -1;
+    // A pins when its bottom reaches the bottom of the screen (a section taller than the screen still scrolls through first)
+    const fit = () => { A.style.top = Math.min(0, innerHeight - A.offsetHeight) + 'px'; };
+    function draw() {
+      ticking = false;
+      const top = st.getBoundingClientRect().top + B.offsetTop;      // B's own top, which its transform cannot change
+      const p = clamp(1 - top / innerHeight, 0, 1), q = Math.round(p * 1000) / 1000;
+      if (q === last) return; last = q;
+      A.style.transform = 'scale(' + (1 - 0.2 * p).toFixed(4) + ') rotate(' + (-5 * p).toFixed(3) + 'deg)';
+      B.style.transform = 'scale(' + (0.8 + 0.2 * p).toFixed(4) + ') rotate(' + (5 * (1 - p)).toFixed(3) + 'deg)';
+    }
+    const kick = () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } };
+    fit(); draw();
+    addEventListener('scroll', kick, { passive: true });
+    addEventListener('resize', () => { fit(); last = -1; kick(); });
+    if ('ResizeObserver' in window) new ResizeObserver(() => { fit(); last = -1; kick(); }).observe(A);
+  });
+
+  /* ---------- FLOW: each section pins when its bottom reaches the screen bottom; the next one swings in from 30deg to flat ---------- */
+  $$('.flow').forEach(box => {
+    if (reduced.matches) return;
+    const secs = [...box.children].map((sec, i, all) => {
+      const s = document.createElement('div'), r = document.createElement('div');
+      s.className = 'flow-s' + (i < all.length - 1 ? ' pin' : ''); s.style.zIndex = i + 1; r.className = 'flow-r';
+      box.insertBefore(s, sec); r.appendChild(sec); s.appendChild(r);
+      return { s, r, i };
+    });
+    box.classList.add('on');
+    let ticking = false;
+    const fit = () => secs.forEach(o => { if (o.s.classList.contains('pin')) o.s.style.top = Math.min(0, innerHeight - o.s.offsetHeight) + 'px'; });
+    function draw() {
+      ticking = false;
+      const H = innerHeight, base = box.getBoundingClientRect().top;
+      let y = 0;
+      secs.forEach(o => {
+        const top = base + y; y += o.s.offsetHeight;                  // natural top: sticky offsets and transforms don't change it
+        if (o.i === 0) return;
+        const p = clamp((H - top) / (H * 0.75), 0, 1);
+        o.r.style.transform = p >= 1 ? '' : 'rotate(' + (30 * (1 - p)).toFixed(2) + 'deg)';
+      });
+    }
+    const kick = () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } };
+    const again = () => { fit(); kick(); };
+    fit(); draw();
+    addEventListener('scroll', kick, { passive: true });
+    addEventListener('resize', again);
+    if ('ResizeObserver' in window) { const ro = new ResizeObserver(again); secs.forEach(o => ro.observe(o.s)); }
+  });
+
   /* ---------- reveal on scroll, path line, lit modules ---------- */
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.18 });
   $$('.reveal').forEach(el => io.observe(el));
