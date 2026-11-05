@@ -537,3 +537,11 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
 /* reading progress: a thin bar across the very top that fills as you scroll the page */
 .progress{position:fixed;left:0;top:0;right:0;height:4px;z-index:60;pointer-events:none;background:rgba(255,255,255,.08)}
 .progress i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,#214EA2,#7fa2ff 55%,#ffffff);will-change:transform}
+
+/* grid pulse: a fine grid that takes colour where the pointer passes (coach section) */
+.gp{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background-image:linear-gradient(to right,rgba(164,181,219,.09) 1px,transparent 1px),linear-gradient(to bottom,rgba(164,181,219,.09) 1px,transparent 1px);background-size:24px 24px;
+  -webkit-mask-image:linear-gradient(to bottom,#000 90%,transparent);mask-image:linear-gradient(to bottom,#000 90%,transparent)}
+.gp canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* a halo in the page colour so lit cells never crowd the letters */
+.gp-sec .eyebrow,.gp-sec h2,.gp-sec .lede,.gp-sec .facts li{text-shadow:0 0 6px #0a1a44,0 0 14px #0a1a44,0 0 30px #0a1a44}

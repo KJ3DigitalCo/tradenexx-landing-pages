@@ -112,6 +112,105 @@
     draw();
   });
 
+  /* ---------- GRID-PULSE: cells take colour where the pointer passes, then let go. A few light on their own. ---------- */
+  $$('.gp').forEach(el => {
+    if (reduced.matches) return;
+    const paper = $('canvas', el), ctx = paper.getContext('2d'), host = el.parentElement, avoid = el.dataset.avoid || '';
+    const CELL = 24, REACH = 2.6, AMBIENT = 2, MAXLIT = 180, FAINT = 0.13, FADE = 2.2, PAD = 5, FADE_IN = 160, FADE_OUT = 750;
+    // Tradenexx blues instead of a rainbow: the hue drifts a little down the field, lightness varies per cell
+    const HUE_TOP = 226, HUE_SPAN = 26, TINTS = [86, 78, 70, 62, 54];
+    const easeOut = t => 1 - (1 - t) * (1 - t), easeIn = t => t * t;
+    let cols = 1, rows = 1, width = 0, height = 0, clear = [];
+    const cells = new Map();
+
+    function measureText() {
+      const b = el.getBoundingClientRect();
+      clear = [];
+      $$(avoid, host).forEach(node => {
+        const range = document.createRange(); range.selectNodeContents(node);
+        const lines = [...range.getClientRects()].filter(r => r.width > 0 && r.height > 0);
+        (lines.length ? lines : [node.getBoundingClientRect()]).forEach(r =>
+          clear.push({ left: r.left - b.left - PAD, top: r.top - b.top - PAD, right: r.right - b.left + PAD, bottom: r.bottom - b.top + PAD }));
+      });
+    }
+    function measure() {
+      width = el.clientWidth; height = el.clientHeight;
+      cols = Math.max(1, Math.ceil(width / CELL)); rows = Math.max(1, Math.ceil(height / CELL));
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      paper.width = Math.round(width * dpr); paper.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      measureText(); wake();
+    }
+    // how bright a cell may be, by its distance from the nearest line of text (faint, never a hole)
+    function brightness(col, row) {
+      const x = col * CELL + CELL / 2, y = row * CELL + CELL / 2;
+      let nearest = Infinity;
+      for (const r of clear) {
+        const dx = Math.max(r.left - x, 0, x - r.right), dy = Math.max(r.top - y, 0, y - r.bottom);
+        nearest = Math.min(nearest, Math.hypot(dx, dy));
+        if (nearest === 0) break;
+      }
+      return nearest === Infinity ? 1 : FAINT + (1 - FAINT) * Math.min(1, nearest / (FADE * CELL));
+    }
+    function ink(row) {
+      const t = rows > 1 ? Math.min(1, row / (rows - 1)) : 0;
+      return 'hsl(' + Math.round(HUE_TOP - t * HUE_SPAN) + ' 95% ' + TINTS[Math.floor(Math.random() * TINTS.length)] + '%)';
+    }
+    let frame = 0;
+    function draw(now) {
+      frame = 0;
+      ctx.clearRect(0, 0, width, height);
+      for (const [key, c] of cells) {
+        let alpha;
+        if (now < c.until) alpha = easeOut(Math.min(1, (now - c.born) / FADE_IN));
+        else { const t = (now - c.until) / FADE_OUT; if (t >= 1) { cells.delete(key); continue; } alpha = 1 - easeIn(t); }
+        ctx.globalAlpha = alpha * c.dim; ctx.fillStyle = c.colour;
+        ctx.fillRect(c.col * CELL + 1, c.row * CELL + 1, CELL - 1, CELL - 1);   // inset by the hairline so the grid still shows
+      }
+      ctx.globalAlpha = 1;
+      if (cells.size > 0) frame = requestAnimationFrame(draw);                  // sleeps whenever nothing is lit
+    }
+    function wake() { if (!frame) frame = requestAnimationFrame(draw); }
+    function light(col, row, hold) {
+      if (col < 0 || row < 0 || col >= cols || row >= rows || cells.size >= MAXLIT) return;
+      const key = col + ',' + row, now = performance.now(), lit = cells.get(key);
+      if (lit && now < lit.until) return;
+      let born = now;
+      if (lit) { const faded = 1 - easeIn(Math.min(1, (now - lit.until) / FADE_OUT)); born = now - (1 - Math.sqrt(1 - faded)) * FADE_IN; }
+      cells.set(key, { col, row, colour: lit ? lit.colour : ink(row), dim: brightness(col, row), born, until: now + hold });
+      wake();
+    }
+    // the pointer paints; cells further away catch light less often, so the trail breaks up softly
+    let pending = 0, at = null;
+    function paint() {
+      pending = 0; if (!at) return;
+      const cx = Math.floor(at.x / CELL), cy = Math.floor(at.y / CELL), span = Math.ceil(REACH);
+      for (let dy = -span; dy <= span; dy++) for (let dx = -span; dx <= span; dx++) {
+        const away = Math.hypot(dx, dy);
+        if (away > REACH || Math.random() > 1 - away / (REACH + 0.6)) continue;
+        light(cx + dx, cy + dy, 260 + Math.random() * 900);
+      }
+    }
+    addEventListener('pointermove', e => {
+      if (!visible) return;
+      const b = el.getBoundingClientRect();
+      if (e.clientY < b.top - 80 || e.clientY > b.bottom + 80 || e.clientX < b.left - 80 || e.clientX > b.right + 80) return;
+      at = { x: e.clientX - b.left, y: e.clientY - b.top };
+      if (!pending) pending = requestAnimationFrame(paint);
+    }, { passive: true });
+    // a few cells light on their own so the grid is alive on arrival and on screens with no pointer
+    let visible = false;
+    (function drift() {
+      setTimeout(drift, 1400 + Math.random() * 1800);
+      if (!visible || document.hidden) return;
+      for (let i = 0; i < AMBIENT; i++) light(Math.floor(Math.random() * cols), Math.floor(Math.random() * rows), 900 + Math.random() * 1600);
+    })();
+    new IntersectionObserver(es => es.forEach(en => { visible = en.isIntersecting; if (visible) setTimeout(measureText, 1300); }), { threshold: 0 }).observe(el);   // measure again once the section's own reveal has settled
+    new ResizeObserver(measure).observe(el);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureText).catch(() => {});
+    measure();
+  });
+
   /* ---------- reveal on scroll, path line, lit modules ---------- */
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.18 });
   $$('.reveal').forEach(el => io.observe(el));

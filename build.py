@@ -335,7 +335,9 @@ def build(key, P):
   </div>
 </div></section>
 
-<section class="s t-navy d-rings reveal"><div class="deco" aria-hidden="true">{RINGS}</div><div class="wrap coach">
+<section class="s t-navy reveal gp-sec">
+  <div class="gp" aria-hidden="true" data-avoid=".coach .eyebrow, .coach h2, .coach .lede, .coach .facts li"><canvas></canvas></div>
+  <div class="wrap coach">
   <div class="ph rv"><img src="../assets/img/coach.jpg" alt="Coach Alex Uy, founder of Tradenexx" loading="lazy" width="720" height="923"></div>
   <div>
     <div class="eyebrow rv">Your coach</div>
