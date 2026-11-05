@@ -452,15 +452,17 @@
 
   function wireReg(box) {
     const isDlg = box.matches('dialog'), form = $('form', box), err = $('.err', box), mob = form.mobile;
-    // the form at the bottom of the page does step 1 only: payment and the thank-you open in the popup
-    const popup = !isDlg ? $('dialog.reg') : null, target = popup || box;
+    // the popup and the form at the bottom of the page always show the same step; sign-ups from the bottom form also open the popup
+    const popup = $('dialog.reg'), all = $$('.reg');
     const toStep = n => {
-      target.dataset.step = n;
-      if (popup) { if (!popup.open) popup.showModal(); popup.scrollTo({ top: 0 }); if (n === '2') { form.reset(); err.textContent = ''; } }
+      all.forEach(r => { r.dataset.step = n; });
+      if (!isDlg && popup && n !== '1') { if (!popup.open) popup.showModal(); popup.scrollTo({ top: 0 }); }
       else if (isDlg) box.scrollTo({ top: 0 });
-      else box.scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'center' });
     };
-    const fill = (ref, name) => { $$('[data-ref]', target).forEach(n => n.textContent = ref); $$('[data-name]', target).forEach(n => n.textContent = name.split(' ')[0]); };
+    const fill = (ref, name) => all.forEach(r => {
+      $$('[data-ref]', r).forEach(n => n.textContent = ref);
+      $$('[data-name]', r).forEach(n => n.textContent = name.split(' ')[0]);
+    });
     mob.addEventListener('input', () => { mob.value = fmtMobile(normMobile(mob.value).slice(0, 11)); });
 
     form.addEventListener('submit', async e => {
@@ -495,13 +497,13 @@
     });
     $('[data-paid]', box).addEventListener('click', () => { toStep('3'); window.open('https://m.me/tradenexx', '_blank', 'noopener'); });
     const reset = $('[data-reset]', box);
-    if (reset) reset.addEventListener('click', () => { form.reset(); err.textContent = ''; toStep('1'); });
+    if (reset) reset.addEventListener('click', () => { $$('.reg form').forEach(f => f.reset()); $$('.reg .err').forEach(n => n.textContent = ''); toStep('1'); });
   }
   $$('.reg').forEach(wireReg);
 
   const dlg = $('dialog.reg');
   if (dlg) {
-    const open = () => { dlg.dataset.step = '1'; $('.err', dlg).textContent = ''; if (!dlg.open) dlg.showModal(); };
+    const open = () => { if (dlg.dataset.step === '3') $$('.reg').forEach(r => { r.dataset.step = '1'; }); $('.err', dlg).textContent = ''; if (!dlg.open) dlg.showModal(); };   // reopening after a closed payment step keeps it; after a finished sign-up it starts fresh
     $$('[data-join]').forEach(b => b.addEventListener('click', open));
     $$('[data-close]', dlg).forEach(b => b.addEventListener('click', () => dlg.close()));
     dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
