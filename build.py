@@ -278,7 +278,9 @@ def build(key, P):
 {MARQUEE}
 
 <main id="main" tabindex="-1">
-<section class="s t-navy d-dots reveal"><div class="wrap">
+<section class="s t-navy d-dots fx reveal">
+  <div class="dr-root dr-local" aria-hidden="true"><canvas class="dr-bloom"></canvas><canvas class="dr-main"></canvas><div class="dr-vignette"></div><div class="dr-grain"></div></div>
+<div class="wrap">
   <div class="eyebrow rv">Who it is for</div>
   <h2 class="rv">{h(C['who_h'])}</h2>
   <div class="who">{who}</div>
@@ -320,8 +322,7 @@ def build(key, P):
 </div></section>
 
 <div class="stack">
-<section class="s t-pale d-stripes fx reveal">
-  <div class="dr-root dr-local" aria-hidden="true"><canvas class="dr-bloom"></canvas><canvas class="dr-main"></canvas><div class="dr-vignette"></div><div class="dr-grain"></div></div>
+<section class="s t-pale d-stripes reveal">
   <div class="wrap">
   <div class="eyebrow rv">What is included</div>
   <h2 class="rv">{h(P['offer_h'])}</h2>
