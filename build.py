@@ -351,6 +351,15 @@ def build(key, P):
 
 <section class="s t-white gal-sec" aria-label="Photos from past trainings">{gallery_html(P["proof_order"], P["proof_h"], P["proof_p"])}</section>
 
+<section class="s t-ink d-dots reveal" aria-label="Student testimonials"><div class="wrap">
+  <div class="eyebrow rv">Student stories</div>
+  <h2 class="rv">Hear it from people who joined.</h2>
+  <div class="tvs">
+    <figure class="tvf"><button class="tv" type="button" data-src="../assets/vid/kristan.mp4" aria-label="Play Kristan's testimonial"><img src="../assets/vid/kristan.jpg" alt="" loading="lazy"><span class="tvp" aria-hidden="true"></span></button><figcaption><b>Kristan</b><span class="eyebrow">Testimonial &middot; 4:09</span></figcaption></figure>
+    <figure class="tvf"><button class="tv" type="button" data-src="../assets/vid/mobelyn.mp4" aria-label="Play Mobelyn's testimonial"><img src="../assets/vid/mobelyn.jpg" alt="" loading="lazy"><span class="tvp" aria-hidden="true"></span></button><figcaption><b>Mobelyn</b><span class="eyebrow">Testimonial &middot; 2:12</span></figcaption></figure>
+  </div>
+</div></section>
+
 <div class="flow">
 <section class="s t-blue d-wave reveal"><div class="wrap">
   <div class="eyebrow rv">How to join</div>

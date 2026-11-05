@@ -584,3 +584,18 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
 .final{position:relative;overflow:hidden}
 .final>.aur{background:none}
 .final>.final-grid{position:relative;z-index:1}
+
+/* testimonial videos: two portrait cards, tap to play with sound */
+.tvs{display:grid;grid-template-columns:repeat(2,minmax(0,300px));gap:clamp(18px,4vw,48px);justify-content:center;margin-top:40px}
+.tvf{margin:0}
+.tv{position:relative;display:block;width:100%;aspect-ratio:9/16;padding:0;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#000;cursor:pointer;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.tv img,.tvf video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.tv:hover img{transform:scale(1.04)}
+.tv::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(3,7,26,.6),transparent 45%)}
+.tvp{position:absolute;left:50%;top:50%;z-index:1;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;background:#fff;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.tvp::before{content:"";position:absolute;left:29px;top:22px;border-left:20px solid #001664;border-top:14px solid transparent;border-bottom:14px solid transparent}
+.tvf.on{position:relative}
+.tvf.on video{position:static;aspect-ratio:9/16;border:1px solid var(--line);border-radius:22px;background:#000}
+.tvf figcaption{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.tvf figcaption b{font:700 18px/1.2 var(--head)}
+@media(max-width:640px){.tvs{grid-template-columns:minmax(0,320px)}}

@@ -265,6 +265,16 @@
     if ('ResizeObserver' in window) { const ro = new ResizeObserver(again); secs.forEach(o => ro.observe(o.s)); }
   });
 
+  /* ---------- TESTIMONIALS: tap a card to load and play that video; only one plays at a time ---------- */
+  $$('.tv').forEach(btn => btn.addEventListener('click', () => {
+    $$('.tvf video').forEach(v => v.pause());
+    const fig = btn.closest('.tvf'), cap = $('figcaption', fig), v = document.createElement('video');
+    v.src = btn.dataset.src; v.controls = true; v.playsInline = true; v.autoplay = true; v.preload = 'auto';
+    v.setAttribute('aria-label', btn.getAttribute('aria-label').replace('Play ', ''));
+    fig.classList.add('on'); fig.replaceChildren(v, cap);
+    v.play().catch(() => {});
+  }));
+
   /* ---------- reveal on scroll, path line, lit modules ---------- */
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.18 });
   $$('.reveal').forEach(el => io.observe(el));
