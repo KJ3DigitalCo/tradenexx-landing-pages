@@ -298,7 +298,7 @@ def build(key, P):
   {mods}</div>
 </div></section>
 
-<section class="s t-deep d-ticks"><div class="deco" aria-hidden="true">{RINGS}</div><div class="wrap">
+<section class="s t-deep d-ticks aur-sec"><div class="aur" aria-hidden="true"><i></i><i></i><i></i></div><div class="wrap">
   <div class="eyebrow">Try it</div>
   <h2>{h(C['calc_h'])}</h2>
   <p class="lede">{h(C['calc_p'])}</p>
