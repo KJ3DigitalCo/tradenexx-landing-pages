@@ -213,7 +213,7 @@
 
   /* ---------- STACK-SCROLL: section A stays pinned and shrinks; section B rises over it, growing from 80% to full ---------- */
   $$('.stack').forEach(st => {
-    if (reduced.matches) return;
+    if (reduced.matches || /[?&]plain\b/.test(location.search)) return;   // ?plain turns the scroll effects off (for testing)
     const A = st.children[0], B = st.children[1];
     A.classList.add('stack-a'); B.classList.add('stack-b'); st.classList.add('on');
     let ticking = false, last = -1;
@@ -236,7 +236,7 @@
 
   /* ---------- FLOW: each section pins when its bottom reaches the screen bottom; the next one swings in from 30deg to flat ---------- */
   $$('.flow').forEach(box => {
-    if (reduced.matches) return;
+    if (reduced.matches || /[?&]plain\b/.test(location.search)) return;   // ?plain turns the scroll effects off (for testing)
     const secs = [...box.children].map((sec, i, all) => {
       const s = document.createElement('div'), r = document.createElement('div');
       s.className = 'flow-s' + (i < all.length - 1 ? ' pin' : ''); s.style.zIndex = i + 1; r.className = 'flow-r';

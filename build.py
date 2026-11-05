@@ -186,7 +186,7 @@ def reg_inner(P, pid, inline):
       <p class="lede" style="font-size:14px">Fill in your details first. Payment comes next.</p>
       <form autocomplete="on">
         <div class="fld"><label for="{pid}-name">Full name</label><input id="{pid}-name" name="name" required autocomplete="name"{"" if inline else " autofocus"}></div>
-        <div class="fld"><label for="{pid}-mobile">Mobile number (GCash)</label><input id="{pid}-mobile" name="mobile" type="tel" required inputmode="tel" placeholder="09XX XXX XXXX" maxlength="13" autocomplete="tel"></div>
+        <div class="fld"><label for="{pid}-mobile">Mobile number</label><input id="{pid}-mobile" name="mobile" type="tel" required inputmode="tel" placeholder="09XX XXX XXXX" maxlength="13" autocomplete="tel"></div>
         <div class="fld"><label for="{pid}-email">Email</label><input id="{pid}-email" name="email" type="email" required autocomplete="email" placeholder="name@gmail.com"></div>
         <div class="fld"><label for="{pid}-who">I am a</label><select id="{pid}-who" name="who" required><option value="" disabled selected>Choose one</option><option>Business owner</option><option>Seafarer or OFW</option><option>IT or BPO professional</option><option>First-timer</option><option>Other</option></select></div>
         <label class="chk"><input type="checkbox" name="ok" required><span>I understand this is trading education, not an investment, and that trading can lose money.</span></label>
