@@ -254,7 +254,7 @@ def build(key, P):
 <meta property="og:type" content="website">
 <meta property="og:url" content="{SITE_URL}/{key}/">
 <meta property="og:image" content="{SITE_URL}/assets/img/hall.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23214EA2'/%3E%3Cellipse cx='16' cy='17' rx='15' ry='5' fill='none' stroke='%23A4B5DB' stroke-width='2' transform='rotate(-18 16 16)'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css?v={ASSET_V}">
