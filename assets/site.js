@@ -71,10 +71,118 @@
     draw();
   }
 
-  /* ---------- photo corridor: only animate while it is on screen ---------- */
-  $$('.ish').forEach(box => {
-    if (!('IntersectionObserver' in window)) return;
-    new IntersectionObserver(es => es.forEach(e => box.classList.toggle('off', !e.isIntersecting)), { rootMargin: '80px' }).observe(box);
+  /* ---------- photo fan: 7 cards at a time, arrows and swipe to cycle, hover pushes the neighbours ---------- */
+  $$('[data-fan]').forEach(root => {
+    const layout = $('.fan-layout', root), cards = $$('.fan-card', layout), dots = $$('.fan-dots span', root);
+    const total = cards.length, MAXV = 7, HALF = 3, paginate = total > MAXV;
+    const FAN = [
+      { rot: -21, scale: 0.7756, x: -30, y: 7.3, z: 1 }, { rot: -14, scale: 0.8498, x: -22, y: 4.0, z: 2 }, { rot: -7, scale: 0.9346, x: -11, y: 1.3, z: 3 },
+      { rot: 0, scale: 1.0, x: 0, y: 0, z: 10 },
+      { rot: 7, scale: 0.9346, x: 11, y: 1.3, z: 3 }, { rot: 14, scale: 0.8498, x: 22, y: 4.0, z: 2 }, { rot: 21, scale: 0.7756, x: 30, y: 7.3, z: 1 }];
+    // springy easing where the browser supports it, an overshoot curve where it does not
+    const SPRING = (window.CSS && CSS.supports && CSS.supports('transition-timing-function', 'linear(0,1)'))
+      ? 'linear(0,.38 6%,.82 12%,1.08 19%,1.14 24%,1.09 30%,1.02 38%,.99 46%,1.005 58%,1)' : 'cubic-bezier(.34,1.56,.64,1)';
+    const OUT = 'cubic-bezier(.22,.8,.3,1)', IN = 'cubic-bezier(.5,0,.9,.6)';
+    const calm = reduced.matches;
+    const mult = () => { const w = innerWidth; return w < 480 ? .28 : w < 640 ? .38 : w < 768 ? .5 : w < 1024 ? .75 : 1; };
+    const hmult = () => { const w = innerWidth, ideal = (w < 480 ? 22 : w < 640 ? 26 : w < 768 ? 28 : w < 1024 ? 34 : 38) * 16, avail = innerHeight * 0.7; return avail >= ideal ? 1 : avail / ideal; };
+    const slotCfg = (count, slot) => {
+      if (count >= MAXV) return FAN[slot];
+      const c = count >> 1, d = count > 1 ? (slot - c) / c : 0, ad = Math.abs(d);
+      return { rot: d * 21, scale: 1 - .2244 * ad * ad, x: d * 30, y: ad * ad * 7.3, z: 10 - Math.abs(slot - c) };
+    };
+    let center = paginate ? HALF : total >> 1, busy = false, entered = false, prevVis = new Set(), activeSlot = null, leaveT = 0;
+    const visibleMap = c => {
+      const m = new Map();
+      if (!paginate) { cards.forEach((_, i) => m.set(i, i)); return m; }
+      for (let sl = 0; sl < MAXV; sl++) m.set((((c + sl - HALF) % total) + total) % total, sl);
+      return m;
+    };
+    const tf = (x, y, rot, sc) => 'translate(-50%,-50%) translate(' + x.toFixed(2) + 'rem,' + y.toFixed(2) + 'rem) rotate(' + rot.toFixed(2) + 'deg) scale(' + sc.toFixed(4) + ')';
+    // set a card's state; dur 0 means "jump there"
+    function put(el, st, dur, ease, delay) {
+      el.style.transition = (calm || !dur) ? 'none' : 'transform ' + dur + 's ' + ease + ' ' + (delay || 0) + 's, opacity ' + Math.min(dur, .5) + 's ease ' + (delay || 0) + 's';
+      el.style.transform = tf(st.x, st.y, st.rot, st.scale);
+      el.style.opacity = st.op;
+      if (st.z !== undefined) el.style.zIndex = st.z;
+    }
+    const target = (slot, count) => { const k = slotCfg(count, slot); return { x: k.x * mult(), y: k.y * hmult(), rot: k.rot, scale: k.scale, op: 1, z: k.z }; };
+    const settle = ms => { busy = true; setTimeout(() => { busy = false; }, calm ? 0 : ms); };
+
+    function layout_(dir, first) {
+      const vis = visibleMap(center), count = paginate ? MAXV : total, hm = hmult();
+      cards.forEach((el, i) => {
+        const slot = vis.get(i), was = prevVis.has(i);
+        if (slot !== undefined) {
+          const t = target(slot, count);
+          if (first) {
+            put(el, { x: 0, y: 12 * hm, rot: 0, scale: .5, op: 0, z: t.z }, 0);
+            void el.offsetWidth;
+            put(el, t, 1.2, SPRING, .2 + slot * .06);
+          } else if (!was) {
+            put(el, { x: (dir === 'right' ? 40 : -40), y: t.y, rot: dir === 'right' ? 30 : -30, scale: .5, op: 0, z: t.z }, 0);
+            void el.offsetWidth;
+            put(el, t, .6, OUT);
+          } else put(el, t, .5, OUT);
+        } else if (was) {
+          put(el, { x: dir === 'right' ? -40 : 40, y: 0, rot: dir === 'right' ? -30 : 30, scale: .5, op: 0, z: 0 }, .4, IN);
+        } else if (first) {
+          put(el, { x: 0, y: 0, rot: 0, scale: .3, op: 0, z: 0 }, 0);
+        }
+      });
+      prevVis = new Set(vis.keys());
+      dots.forEach((d, i) => d.classList.toggle('on', i === center));
+      settle(first ? 1500 : 700);
+    }
+
+    // hover: lift the card under the pointer, push the others away
+    function hoverLayout(hs) {
+      const vis = visibleMap(center), count = paginate ? MAXV : total, m = mult(), hm = hmult();
+      const entries = []; cards.forEach((el, i) => { const sl = vis.get(i); if (sl !== undefined) entries.push({ el, sl }); });
+      entries.sort((a, b) => a.sl - b.sl);
+      const cs = entries.length >> 1;
+      entries.forEach(({ el, sl }) => {
+        const base = slotCfg(count, sl);
+        let x = base.x * m, y = base.y * hm, rot = base.rot, sc = base.scale, delay = Math.abs(sl - cs) * .02;
+        if (hs !== null) {
+          const dist = Math.abs(sl - hs); delay = dist * .02;
+          if (sl === hs) { y -= 2.5 * hm; sc *= 1.08; }
+          else {
+            const nrm = cs > 0 ? (sl - cs) / cs : 0, push = 8 * (1 - Math.abs(nrm)) * (1 + .2 * Math.max(0, 3 - dist));
+            if (sl < hs) { x -= push * m; rot -= 3 / (dist + 1); } else { x += push * m; rot += 3 / (dist + 1); }
+          }
+        }
+        put(el, { x, y, rot, scale: sc, op: 1, z: base.z }, .5, SPRING, delay);
+      });
+    }
+    cards.forEach((el, i) => el.addEventListener('mouseenter', () => {
+      if (busy || !entered) return;
+      const sl = visibleMap(center).get(i); if (sl === undefined) return;
+      clearTimeout(leaveT); if (activeSlot !== sl) { activeSlot = sl; hoverLayout(sl); }
+    }));
+    layout.addEventListener('mouseleave', () => { if (busy || !entered) return; clearTimeout(leaveT); leaveT = setTimeout(() => { activeSlot = null; hoverLayout(null); }, 50); });
+
+    function cycle(dir) {
+      if (busy || !paginate || !entered) return;
+      center = dir === 'right' ? (center + 1) % total : (center - 1 + total) % total;
+      activeSlot = null;
+      layout_(dir, false);
+    }
+    $('[data-prev]', root).addEventListener('click', () => cycle('left'));
+    $('[data-next]', root).addEventListener('click', () => cycle('right'));
+    // swipe on touch screens
+    let sx = null;
+    layout.addEventListener('pointerdown', e => { sx = e.pointerType === 'mouse' ? null : e.clientX; });
+    layout.addEventListener('pointerup', e => { if (sx === null) return; const dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 40) cycle(dx < 0 ? 'right' : 'left'); });
+    addEventListener('resize', () => { if (entered && !busy) hoverLayout(activeSlot); });
+
+    // the cards arrive when the section first comes into view
+    if ('IntersectionObserver' in window) {
+      const io2 = new IntersectionObserver(es => es.forEach(en => {
+        if (en.isIntersecting && !entered) { entered = true; io2.disconnect(); layout_(null, true); }
+      }), { threshold: 0.3 });
+      io2.observe(root);
+    } else { entered = true; layout_(null, true); }
   });
 
   /* ---------- reveal on scroll, path line, lit modules ---------- */

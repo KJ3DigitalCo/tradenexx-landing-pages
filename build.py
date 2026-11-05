@@ -145,37 +145,20 @@ def split_title(t):
     k = min(cands, key=lambda i: abs(i - mid)) if cands else len(w) // 2
     return " ".join(w[:k]), " ".join(w[k:])
 
-ISH = dict(perspective=30, cardWidth=18, cardHeight=25, cardRadius=0.4, birthHeight=2.6, exitHeight=46,
-           railBirth=-11, railExit=44, fan=3.3, turnBirth=6, turnExit=28, stops=24, cards=9, speed=18, axis=55)
+FAN_ALT = {"hall": "A full training hall at a past Tradenexx event", "selfie": "Coach Alex taking a selfie with a full room of attendees",
+           "workshop": "Attendees working on laptops during a live session", "laptops": "Close view of traders at their laptops",
+           "group": "Group photo after a live training", "class": "A classroom of attendees",
+           "award": "Coach Alex receiving an award in Dubai", "cert": "Best Forex CEO 2024 certificate from WikiFX"}
 
-def ish_keyframes(direction, name):
-    """One rail of the corridor. Depth is authored as apparent size (geometric), the rails open early then hold."""
-    p, steps = ISH, []
-    for s in range(p["stops"] + 1):
-        u = s / p["stops"]
-        scale = (p["birthHeight"] / p["cardHeight"]) * (p["exitHeight"] / p["birthHeight"]) ** u
-        z = p["perspective"] * (1 - 1 / scale)
-        rail = p["railExit"] - (p["railExit"] - p["railBirth"]) * (1 - u) ** p["fan"]
-        turn = p["turnBirth"] + (p["turnExit"] - p["turnBirth"]) * u
-        steps.append("%.2f%%{transform:translate3d(%.2fcqw,0,%.2fcqw) rotateY(%.2fdeg)}" % (u * 100, direction * rail, z, -direction * turn))
-    return "@keyframes %s{%s}" % (name, "".join(steps))
-
-ISH_CSS = ish_keyframes(1, "ish-r") + ish_keyframes(-1, "ish-l")
-
-def ish_html(order, heading, lede):
-    p = ISH
-    cards = ""
-    for side in ("r", "l"):
-        for i in range(p["cards"]):
-            img = order[i % len(order)]
-            cards += (f'<div class="ish-card {side}" style="animation-delay:{-(i * p["speed"]) / p["cards"]:.2f}s">'
-                      f'<img src="../assets/img/s-{img}.jpg" alt="" loading="lazy" decoding="async" draggable="false"></div>')
-    return (f'<style>{ISH_CSS}</style>'
-            f'<div class="ish">'
-            f'<div class="ish-stage" aria-hidden="true"><div class="ish-persp"><div class="ish-rails">{cards}</div></div></div>'
-            f'<div class="ish-copy"><div><div class="eyebrow">Proof</div><h2>{h(heading)}</h2></div>'
-            f'<div><p class="lede">{h(lede)}</p><p class="cap">Photos and recognition provided by Tradenexx.</p></div></div>'
-            f'</div>')
+def fan_html(order, heading, lede):
+    cards = "".join(f'<div class="fan-card"><img src="../assets/img/{n}.jpg" alt="{FAN_ALT[n]}" loading="lazy" decoding="async" draggable="false"></div>' for n in order)
+    dots = "".join("<span></span>" for _ in order)
+    return (f'<div class="wrap fan-head"><div class="eyebrow">Proof</div><h2>{h(heading)}</h2><p class="lede">{h(lede)}</p></div>'
+            f'<div class="fan" data-fan><div class="fan-layout">{cards}</div>'
+            f'<div class="fan-controls"><button class="fan-btn" type="button" data-prev aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>'
+            f'<div class="fan-dots" aria-hidden="true">{dots}</div>'
+            f'<button class="fan-btn" type="button" data-next aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button></div></div>'
+            f'<p class="cap fan-cap">Photos and recognition provided by Tradenexx.</p>')
 
 def h(s): return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
@@ -351,7 +334,7 @@ def build(key, P):
   </div>
 </div></section>
 
-<section class="s t-white ish-sec" aria-label="Photos from past trainings">{ish_html(P["proof_order"], P["proof_h"], P["proof_p"])}</section>
+<section class="s t-white fan-sec" aria-label="Photos from past trainings">{fan_html(P["proof_order"], P["proof_h"], P["proof_p"])}</section>
 
 <section class="s t-blue d-wave reveal"><div class="wrap">
   <div class="eyebrow rv">How to join</div>
