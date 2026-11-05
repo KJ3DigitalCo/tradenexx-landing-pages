@@ -23,7 +23,7 @@ FORMS = {
 # VIDEOS: paste a YouTube link, a Facebook video link, or a file path like "../assets/video/intro.mp4".
 # Leave "" to show the "coming soon" placeholder. POSTER is optional (an image path); the coach photo is the default.
 SAMPLE = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"   # free CC0 sample clip, swap for the real video
-VIDEOS = {"webinar": {"src": SAMPLE, "poster": "../assets/img/zoom4.jpg"},
+VIDEOS = {"webinar": {"src": SAMPLE, "poster": "../assets/img/playbook.jpg"},
           "event":   {"src": SAMPLE, "poster": "../assets/img/group.jpg"}}
 PRICE         = 500
 COMPANY_LINE  = "Tradenexx is registered in the United Kingdom (Companies House no. 17483940)."
@@ -98,7 +98,7 @@ PAGES = {
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
     seat="Webinar seat", tbd="Dates announced soon",
     proof_h="Real people. Live on Zoom.", proof_p="Moments from past online sessions led by Coach Alex.",
-    proof_order=["zoom1", "deskselfie", "award", "zoom3", "cert", "zoom2", "selfie", "zoom5", "playbook"],
+    proof_order=["zoom1", "deskselfie", "award", "zoom3", "cert", "zoom2", "selfie", "zoom5", "zoom4"],
     faq=[("Is this an investment scheme?", "No. You do not give us money to trade. This is education, tools and coaching. Your trading money stays in your own broker account, in your own name."),
          ("Do I need trading experience?", "No. We start from the basics and you practice on a demo account first, so you can learn without risking real money."),
          ("Will I earn money?", "We cannot promise that, and anyone who does is a red flag. Trading and automated trading can lose money, and past results never guarantee future ones. You learn how to manage risk and judge claims for yourself."),
