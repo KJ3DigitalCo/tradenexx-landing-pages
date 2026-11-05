@@ -125,7 +125,7 @@ PAGES = {
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
     seat="Live training seat", tbd="Date and venue announced soon",
     proof_h="This is what the room looks like.", proof_p="Moments from past live trainings led by Coach Alex.",
-    proof_order=["workshop", "laptops", "award", "hall", "group", "cert", "selfie", "class", "coach"],
+    proof_order=["workshop", "laptops", "award", "hall", "cert", "group", "selfie", "class", "coach"],
     faq=[("Is this an investment scheme?", "No. You do not give us money to trade. This is education, tools and coaching. Your trading money stays in your own broker account, in your own name."),
          ("Where and when is it?", "The date and venue are announced soon. People who register hear first."),
          ("What should I bring?", "Your laptop. A Windows laptop works best. We help you set up MT5 in the room, and the full details come with your confirmation."),
@@ -157,7 +157,7 @@ FAN_ALT = {"hall": "A full training hall at a past Tradenexx event", "selfie": "
 def gallery_html(order, heading, lede):
     """Three columns of photos that tilt flat as you scroll. Pick the photos per column so no neighbours repeat."""
     o = order
-    cols = [[o[0], o[3], o[6]], [o[5], o[2], o[7]], [o[1], o[4], o[8]]]     # nine photos, each once; the award sits in the middle
+    cols = [[o[0], o[3], o[1]], [o[5], o[2], o[8]], [o[6], o[7], o[4]]]     # nine photos, each once; award in the middle, bottom row = o[1], o[8], o[4]
     ranges = ["[-10,2]", "[15,5]", "[-10,2]"]
     pos = {"award": "50% 25%", "cert": "50% 30%", "deskselfie": "25% 40%", "coach": "50% 22%"}
     seen, out = set(), ""
