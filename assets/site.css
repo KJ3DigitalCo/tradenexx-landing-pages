@@ -632,5 +632,5 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
   .tvf:nth-child(2) .tv,.tvf:nth-child(2) .tv .tvp{animation-delay:1.2s}
   .tv:hover,.tv:hover .tvp{animation-play-state:paused}
 }
-@keyframes tvbeat{0%,45%,100%{transform:scale(1)}15%{transform:scale(1.035)}}
-@keyframes tvring{0%{box-shadow:0 8px 30px rgba(0,0,0,.4),0 0 0 0 rgba(255,255,255,.65)}45%,100%{box-shadow:0 8px 30px rgba(0,0,0,.4),0 0 0 26px rgba(255,255,255,0)}}
+@keyframes tvbeat{0%,45%,100%{transform:scale(1)}18%{transform:scale(1.07)}}
+@keyframes tvring{0%{box-shadow:0 8px 30px rgba(0,0,0,.4),0 0 0 0 rgba(255,255,255,.65)}45%,100%{box-shadow:0 8px 30px rgba(0,0,0,.4),0 0 0 40px rgba(255,255,255,0)}}
