@@ -351,7 +351,9 @@ def build(key, P):
 
 <section class="s t-white gal-sec" aria-label="Photos from past trainings">{gallery_html(P["proof_order"], P["proof_h"], P["proof_p"])}</section>
 
-<section class="s t-ink d-dots reveal" aria-label="Student testimonials"><div class="wrap">
+<section class="s t-ink reveal gp-sec" aria-label="Student testimonials">
+  <div class="gp" aria-hidden="true" data-avoid=".tst .eyebrow, .tst h2, .tvf figcaption, .tv"><canvas></canvas></div>
+  <div class="wrap tst">
   <div class="eyebrow rv">Student stories</div>
   <h2 class="rv">Hear it from people who joined.</h2>
   <div class="tvs">
