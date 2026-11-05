@@ -239,10 +239,11 @@
     if (reduced.matches || /[?&]plain\b/.test(location.search)) return;   // ?plain turns the scroll effects off (for testing)
     const secs = [...box.children].filter(sec => !sec.matches('.final')).map((sec, i, all) => {   // the sign-up form stays a plain section: browsers' autofill works best on fields with no transformed ancestors
       const s = document.createElement('div'), r = document.createElement('div');
-      s.className = 'flow-s' + (i < all.length - 1 ? ' pin' : ''); s.style.zIndex = i + 1; r.className = 'flow-r';
+      s.className = 'flow-s pin'; s.style.zIndex = i + 1; r.className = 'flow-r';
       box.insertBefore(s, sec); r.appendChild(sec); s.appendChild(r);
       return { s, r, i };
     });
+    const plain = $('.final', box); if (plain) plain.style.zIndex = secs.length + 1;   // the sign-up form is not wrapped; it simply slides over the pinned sections above it
     box.classList.add('on');
     let ticking = false;
     const fit = () => secs.forEach(o => { if (o.s.classList.contains('pin')) o.s.style.top = Math.min(0, innerHeight - o.s.offsetHeight) + 'px'; });
