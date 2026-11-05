@@ -109,11 +109,11 @@
     function drawTilt() {
       ticking = false;
       const H = innerHeight, small = innerWidth < 768;
-      const maxRot = small ? 10 : 16, minScale = small ? 0.96 : 0.94, rise = small ? 24 : 36;
+      const maxRot = small ? 22 : 34, minScale = small ? 0.93 : 0.88, rise = small ? 40 : 80;
       items.forEach(it => {
         const r = it.wrap.getBoundingClientRect();
-        // 0 when the block's top edge is at the bottom of the screen, 1 when it reaches 55% of the way up
-        const p = Math.round(clamp((H - r.top) / (H * 0.45), 0, 1) * 200) / 200;
+        // 0 when the block's top edge is at the bottom of the screen, 1 when it is 30% from the top (so it stays tilted while you scroll toward it)
+        const p = Math.round(clamp((H - r.top) / (H * 0.7), 0, 1) * 200) / 200;
         if (p === it.last) return; it.last = p;
         if (p >= 1) { it.el.style.transform = ''; it.el.style.willChange = ''; return; }
         const e = ease(p);
