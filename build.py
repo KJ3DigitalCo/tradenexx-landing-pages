@@ -22,7 +22,7 @@ FORMS = {
 }
 # VIDEOS: paste a YouTube link, a Facebook video link, or a file path like "../assets/video/intro.mp4".
 # Leave "" to show the "coming soon" placeholder. POSTER is optional (an image path); the coach photo is the default.
-SAMPLE = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"   # free CC0 sample clip, swap for the real video
+SAMPLE = "https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"   # placeholder clip with sound (Blender, CC-BY), swap for the real video
 VIDEOS = {"webinar": {"src": SAMPLE, "poster": "../assets/img/playbook.jpg"},
           "event":   {"src": SAMPLE, "poster": "../assets/img/group.jpg"}}
 PRICE         = 500
