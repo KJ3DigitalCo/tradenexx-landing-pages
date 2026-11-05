@@ -71,6 +71,12 @@
     draw();
   }
 
+  /* ---------- photo corridor: only animate while it is on screen ---------- */
+  $$('.ish').forEach(box => {
+    if (!('IntersectionObserver' in window)) return;
+    new IntersectionObserver(es => es.forEach(e => box.classList.toggle('off', !e.isIntersecting)), { rootMargin: '80px' }).observe(box);
+  });
+
   /* ---------- reveal on scroll, path line, lit modules ---------- */
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.18 });
   $$('.reveal').forEach(el => io.observe(el));

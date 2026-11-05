@@ -507,3 +507,24 @@ footer a{display:inline-block;padding:12px 0;font-size:13px}
 
 /* the hero after the video has opened once: a single screen, no scroll-driven pin */
 .hero3.done{height:100vh;height:100svh}
+
+/* proof: a corridor of photos rushing toward you (css only: perspective + keyframes) */
+.ish-sec{padding:0!important}
+.ish-sec::after{display:none}
+.ish{position:relative;height:clamp(540px,54vw,800px);overflow:hidden;background:var(--bg)}
+.ish::before,.ish::after{content:"";position:absolute;left:0;right:0;z-index:2;pointer-events:none}
+.ish::before{top:0;height:46%;background:linear-gradient(180deg,#f6f8fd 8%,rgba(246,248,253,.85) 38%,rgba(246,248,253,0))}
+.ish::after{bottom:0;height:22%;background:linear-gradient(0deg,#f6f8fd 6%,rgba(246,248,253,0))}
+.ish-stage{position:absolute;top:0;bottom:0;left:50%;width:max(100%,900px);transform:translateX(-50%);container-type:inline-size;pointer-events:none}
+.ish-persp{position:absolute;inset:0;perspective:30cqw;perspective-origin:50% 55%}
+.ish-rails{position:absolute;inset:0;transform-style:preserve-3d}
+.ish-card{position:absolute;left:50%;top:55%;width:18cqw;height:25cqw;margin:-12.5cqw 0 0 -9cqw;border-radius:.4cqw;overflow:hidden;backface-visibility:hidden;background:#dbe5fb;animation:linear 18s infinite;box-shadow:0 .5cqw 1.6cqw rgba(0,22,100,.2)}
+.ish-card.r{animation-name:ish-r}
+.ish-card.l{animation-name:ish-l}
+.ish-card img{width:100%;height:100%;object-fit:cover;display:block}
+.ish-copy{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:clamp(44px,6vw,80px) 20px clamp(26px,3.4vw,44px);pointer-events:none}
+.ish-copy h2{margin:14px auto 0;max-width:18ch;text-wrap:balance}
+.ish-copy .lede{margin:0 auto 10px;max-width:46ch}
+.ish-copy .cap{margin:0}
+.ish.off .ish-card{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.ish-card{animation-play-state:paused}}

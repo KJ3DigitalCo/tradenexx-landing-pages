@@ -98,7 +98,7 @@ PAGES = {
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
     seat="Webinar seat", tbd="Dates announced soon",
     proof_h="Real classrooms. Real laptops.", proof_p="Moments from past live trainings led by Coach Alex.",
-    proof_order=["hall", "selfie", "workshop", "laptops", "group"],
+    proof_order=["hall", "selfie", "award", "workshop", "cert", "laptops", "group", "class"],
     faq=[("Is this an investment scheme?", "No. You do not give us money to trade. This is education, tools and coaching. Your trading money stays in your own broker account, in your own name."),
          ("Do I need trading experience?", "No. We start from the basics and you practice on a demo account first, so you can learn without risking real money."),
          ("Will I earn money?", "We cannot promise that, and anyone who does is a red flag. Trading and automated trading can lose money, and past results never guarantee future ones. You learn how to manage risk and judge claims for yourself."),
@@ -125,7 +125,7 @@ PAGES = {
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
     seat="Live training seat", tbd="Date and venue announced soon",
     proof_h="This is what the room looks like.", proof_p="Moments from past live trainings led by Coach Alex.",
-    proof_order=["workshop", "laptops", "hall", "group", "selfie"],
+    proof_order=["workshop", "laptops", "award", "hall", "group", "cert", "selfie", "class"],
     faq=[("Is this an investment scheme?", "No. You do not give us money to trade. This is education, tools and coaching. Your trading money stays in your own broker account, in your own name."),
          ("Where and when is it?", "The date and venue are announced soon. People who register hear first."),
          ("What should I bring?", "Your laptop. A Windows laptop works best. We help you set up MT5 in the room, and the full details come with your confirmation."),
@@ -144,6 +144,38 @@ def split_title(t):
     mid = len(w) / 2
     k = min(cands, key=lambda i: abs(i - mid)) if cands else len(w) // 2
     return " ".join(w[:k]), " ".join(w[k:])
+
+ISH = dict(perspective=30, cardWidth=18, cardHeight=25, cardRadius=0.4, birthHeight=2.6, exitHeight=46,
+           railBirth=-11, railExit=44, fan=3.3, turnBirth=6, turnExit=28, stops=24, cards=9, speed=18, axis=55)
+
+def ish_keyframes(direction, name):
+    """One rail of the corridor. Depth is authored as apparent size (geometric), the rails open early then hold."""
+    p, steps = ISH, []
+    for s in range(p["stops"] + 1):
+        u = s / p["stops"]
+        scale = (p["birthHeight"] / p["cardHeight"]) * (p["exitHeight"] / p["birthHeight"]) ** u
+        z = p["perspective"] * (1 - 1 / scale)
+        rail = p["railExit"] - (p["railExit"] - p["railBirth"]) * (1 - u) ** p["fan"]
+        turn = p["turnBirth"] + (p["turnExit"] - p["turnBirth"]) * u
+        steps.append("%.2f%%{transform:translate3d(%.2fcqw,0,%.2fcqw) rotateY(%.2fdeg)}" % (u * 100, direction * rail, z, -direction * turn))
+    return "@keyframes %s{%s}" % (name, "".join(steps))
+
+ISH_CSS = ish_keyframes(1, "ish-r") + ish_keyframes(-1, "ish-l")
+
+def ish_html(order, heading, lede):
+    p = ISH
+    cards = ""
+    for side in ("r", "l"):
+        for i in range(p["cards"]):
+            img = order[i % len(order)]
+            cards += (f'<div class="ish-card {side}" style="animation-delay:{-(i * p["speed"]) / p["cards"]:.2f}s">'
+                      f'<img src="../assets/img/s-{img}.jpg" alt="" loading="lazy" decoding="async" draggable="false"></div>')
+    return (f'<style>{ISH_CSS}</style>'
+            f'<div class="ish">'
+            f'<div class="ish-stage" aria-hidden="true"><div class="ish-persp"><div class="ish-rails">{cards}</div></div></div>'
+            f'<div class="ish-copy"><div><div class="eyebrow">Proof</div><h2>{h(heading)}</h2></div>'
+            f'<div><p class="lede">{h(lede)}</p><p class="cap">Photos and recognition provided by Tradenexx.</p></div></div>'
+            f'</div>')
 
 def h(s): return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
@@ -196,8 +228,6 @@ def build(key, P):
     alt = {"hall": "A full training hall at a past Tradenexx event", "selfie": "Coach Alex taking a selfie with a full room of attendees",
            "workshop": "Attendees working on laptops during a live session", "laptops": "Close view of traders at their laptops",
            "group": "Group photo after a live training", "class": "A classroom of attendees", "award": "Coach Alex receiving an award in Dubai", "cert": "Best Forex CEO 2024 certificate from WikiFX"}
-    proof = "".join(f'<figure class="{cls[i]}"><img src="../assets/img/{n}.jpg" alt="{alt[n]}" loading="lazy"></figure>' for i, n in enumerate(o))
-    recog = "".join(f'<figure><img src="../assets/img/{n}.jpg" alt="{alt[n]}" loading="lazy"></figure>' for n in ["award", "cert", "class"])
     V = VIDEOS[key]
     vsrc = V["src"].strip()
     vposter = V["poster"].strip() or "../assets/img/selfie.jpg"
@@ -321,14 +351,7 @@ def build(key, P):
   </div>
 </div></section>
 
-<section class="s t-white d-film"><div class="wrap">
-  <div class="eyebrow">Proof</div>
-  <h2>{h(P['proof_h'])}</h2>
-  <p class="lede">{h(P['proof_p'])}</p>
-  <div class="proof">{proof}</div>
-  <div class="recog">{recog}</div>
-  <p class="cap">Recognition provided by Tradenexx.</p>
-</div></section>
+<section class="s t-white ish-sec" aria-label="Photos from past trainings">{ish_html(P["proof_order"], P["proof_h"], P["proof_p"])}</section>
 
 <section class="s t-blue d-wave reveal"><div class="wrap">
   <div class="eyebrow rv">How to join</div>
