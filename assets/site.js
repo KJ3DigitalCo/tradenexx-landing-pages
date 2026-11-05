@@ -360,7 +360,7 @@
     box.appendChild(b);
     // the first tap, click or key press anywhere counts as the gesture browsers need, so use it to turn the sound on
     const go = () => { if (b.isConnected) b.click(); };
-    ['pointerdown', 'keydown'].forEach(ev => addEventListener(ev, go, { once: true, capture: true }));
+    ['pointerup', 'keydown'].forEach(ev => addEventListener(ev, go, { once: true, capture: true }));
   }
   function mountVideo(box, muted) {
     if (box.dataset.state === 'playing' || !box.dataset.src) return;
