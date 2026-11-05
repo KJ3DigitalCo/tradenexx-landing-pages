@@ -217,7 +217,15 @@ def build(key, P):
     for tag, t, d, chips in C["mods"]:
         li = "".join(f"<li>{h(c)}</li>" for c in chips)
         mods += f'<div class="mod"><div class="tag">{tag}</div><h3>{h(t)}</h3><p>{h(d)}</p><ul>{li}</ul></div>\n'
-    incl = "".join(f'<li class="rv"><span class="i">0{i+1}</span><div><b>{h(t)}</b><small>{h(d)}</small></div></li>' for i, (t, d) in enumerate(P["incl"]))
+    BOT = ('<span class="bot"><svg viewBox="0 0 24 24" width="25" height="25" aria-hidden="true">'
+           '<line x1="12" y1="3.2" x2="12" y2="6.6" stroke="#bcd4ff" stroke-width="1.6" stroke-linecap="round"/>'
+           '<circle class="ant" cx="12" cy="2.6" r="1.7" fill="#7fe0ff"/>'
+           '<rect x="4" y="6.6" width="16" height="12.6" rx="4.2" fill="#fff"/>'
+           '<rect x="1.6" y="11" width="2.4" height="4.6" rx="1.2" fill="#bcd4ff"/><rect x="20" y="11" width="2.4" height="4.6" rx="1.2" fill="#bcd4ff"/>'
+           '<rect x="6.4" y="9" width="11.2" height="7.8" rx="2.6" fill="#001664"/>'
+           '<circle class="eye" cx="9.6" cy="12.2" r="1.5" fill="#7fe0ff"/><circle class="eye" cx="14.4" cy="12.2" r="1.5" fill="#7fe0ff"/>'
+           '<path d="M10 15.2h4" stroke="#7fe0ff" stroke-width="1.1" stroke-linecap="round"/></svg>Trading bot</span>')
+    incl = "".join(f'<li class="rv"><span class="i">0{i+1}</span><div><b>{h(t)}{BOT if "Tradenexx systems" in t else ""}</b><small>{h(d)}</small></div></li>' for i, (t, d) in enumerate(P["incl"]))
     facts = "".join(f"<li>{h(f)}</li>" for f in C["facts"])
     steps = "".join(f'<div class="rv"><h3>{h(t)}</h3><p>{h(d)}</p></div>' for t, d in C["steps"])
     faq = "".join(f"<details><summary>{h(q)}</summary><p>{h(a)}</p></details>" for q, a in P["faq"])

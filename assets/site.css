@@ -609,3 +609,18 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
   .gal-col:nth-child(1) img:nth-child(3){transform:translateX(-9%)}
   .gal-col:nth-child(3) img:nth-child(3){transform:translateX(9%)}
 }
+
+/* trading-bot tag beside item 02 of the included list */
+.bot{display:inline-flex;align-items:center;gap:7px;margin-left:12px;padding:5px 12px 5px 7px;border-radius:999px;vertical-align:middle;white-space:nowrap;
+  background:linear-gradient(135deg,#001664,#214EA2);color:#fff;font:500 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;box-shadow:0 6px 18px rgba(0,22,100,.28)}
+.bot svg{flex:none;overflow:visible}
+@media (prefers-reduced-motion:no-preference){
+  .bot{animation:botglow 2.6s ease-in-out infinite}
+  .bot .ant{animation:botant 1.1s ease-in-out infinite alternate}
+  .bot .eye{transform-box:fill-box;transform-origin:center;animation:botblink 4.2s infinite}
+  .bot svg{animation:botbob 3s ease-in-out infinite}
+}
+@keyframes botglow{0%,100%{box-shadow:0 6px 18px rgba(0,22,100,.28),0 0 0 0 rgba(80,160,255,.45)}50%{box-shadow:0 6px 18px rgba(0,22,100,.28),0 0 0 8px rgba(80,160,255,0)}}
+@keyframes botant{from{opacity:.35}to{opacity:1}}
+@keyframes botblink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes botbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
