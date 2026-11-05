@@ -279,7 +279,7 @@ def build(key, P):
 <section class="s t-navy d-dots reveal"><div class="wrap">
   <div class="eyebrow rv">Who it is for</div>
   <h2 class="rv">{h(C['who_h'])}</h2>
-  <div class="who">{who}</div>
+  <div class="who" data-tilt>{who}</div>
   <div class="who-cta rv">
     <button class="btn" data-join type="button">Reserve your seat</button>
     <div class="meta">{"".join(f'<span class="eyebrow">{h(c)}</span>' for c in P['bands'][0][5])}</div>
@@ -334,7 +334,7 @@ def build(key, P):
   </div>
 </div></section>
 
-<section class="s t-navy d-rings reveal"><div class="deco" aria-hidden="true">{RINGS}</div><div class="wrap coach">
+<section class="s t-navy d-rings reveal"><div class="deco" aria-hidden="true">{RINGS}</div><div class="wrap coach" data-tilt>
   <div class="ph rv"><img src="../assets/img/coach.jpg" alt="Coach Alex Uy, founder of Tradenexx" loading="lazy" width="720" height="923"></div>
   <div>
     <div class="eyebrow rv">Your coach</div>
@@ -349,18 +349,18 @@ def build(key, P):
 <section class="s t-blue d-wave reveal"><div class="wrap">
   <div class="eyebrow rv">How to join</div>
   <h2 class="rv">Three steps. About two minutes.</h2>
-  <div class="steps">{steps}</div>
+  <div class="steps" data-tilt>{steps}</div>
 </div></section>
 
 <section class="s t-pale d-plus"><div class="wrap">
   <div class="eyebrow">Questions</div>
   <h2>The honest answers.</h2>
-  <div class="faq">{faq}</div>
+  <div class="faq" data-tilt>{faq}</div>
 </div></section>
 
 <section class="final t-cta" id="join">
   <div class="deco" aria-hidden="true">{RINGS}</div>
-  <div class="final-grid">
+  <div class="final-grid" data-tilt>
     <div class="final-copy">
       <div class="eyebrow">Seats open</div>
       <h2>{h(P['final_h'])}</h2>

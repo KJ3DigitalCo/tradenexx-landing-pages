@@ -96,6 +96,37 @@
     draw();
   });
 
+  /* ---------- TILT-UP: blocks lean back and stand up flat as they scroll into view (transform only) ---------- */
+  if (!reduced.matches) {
+    const items = $$('[data-tilt]').map(el => {
+      const wrap = document.createElement('div');           // a stable box to measure, so the tilt never feeds back into the maths
+      wrap.className = 'tilt-wrap';
+      el.parentNode.insertBefore(wrap, el); wrap.appendChild(el);
+      return { el, wrap, last: -1 };
+    });
+    const ease = p => p * p * (3 - 2 * p);
+    let ticking = false;
+    function drawTilt() {
+      ticking = false;
+      const H = innerHeight, small = innerWidth < 768;
+      const maxRot = small ? 10 : 16, minScale = small ? 0.96 : 0.94, rise = small ? 24 : 36;
+      items.forEach(it => {
+        const r = it.wrap.getBoundingClientRect();
+        // 0 when the block's top edge is at the bottom of the screen, 1 when it reaches 55% of the way up
+        const p = Math.round(clamp((H - r.top) / (H * 0.45), 0, 1) * 200) / 200;
+        if (p === it.last) return; it.last = p;
+        if (p >= 1) { it.el.style.transform = ''; it.el.style.willChange = ''; return; }
+        const e = ease(p);
+        it.el.style.willChange = 'transform';
+        it.el.style.transform = 'perspective(1000px) translate3d(0,' + (rise * (1 - e)).toFixed(1) + 'px,0) rotateX(' + (maxRot * (1 - e)).toFixed(2) + 'deg) scale(' + (minScale + (1 - minScale) * e).toFixed(4) + ')';
+      });
+    }
+    const kickTilt = () => { if (!ticking) { ticking = true; requestAnimationFrame(drawTilt); } };
+    addEventListener('scroll', kickTilt, { passive: true });
+    addEventListener('resize', () => { items.forEach(i => { i.last = -1; }); kickTilt(); });
+    drawTilt();
+  }
+
   /* ---------- reveal on scroll, path line, lit modules ---------- */
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.18 });
   $$('.reveal').forEach(el => io.observe(el));

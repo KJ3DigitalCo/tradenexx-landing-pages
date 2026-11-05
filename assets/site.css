@@ -533,3 +533,7 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
   .ba{opacity:1;filter:none;transition:none}
 }
 @media (max-width:760px){.gal-col img{aspect-ratio:3/5}.gal-col{gap:6px}.gal-grid{gap:6px}.gal-col:nth-child(2){margin-top:-30%}}
+
+/* tilt-up reveal: a block leans back, then stands up flat as it scrolls into view (set by site.js) */
+.tilt-wrap{display:block}
+.tilt-wrap>[data-tilt]{transform-origin:50% 100%;backface-visibility:hidden}
