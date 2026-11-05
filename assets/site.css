@@ -634,3 +634,7 @@ section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hi
 }
 @keyframes tvbeat{0%,45%,100%{transform:scale(1)}18%{transform:scale(1.07)}}
 @keyframes tvring{0%{box-shadow:0 8px 30px rgba(0,0,0,.4),0 0 0 0 rgba(255,255,255,.65)}45%,100%{box-shadow:0 8px 30px rgba(0,0,0,.4),0 0 0 40px rgba(255,255,255,0)}}
+
+/* "Tap for sound" sits in the middle of the video, clear of the player's own controls */
+.vid .vid-unmute,.vframe .vid-unmute{left:50%;top:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);white-space:nowrap}
+.vid .vid-unmute:hover,.vframe .vid-unmute:hover{transform:translate(-50%,-50%) scale(1.04)}
