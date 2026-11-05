@@ -150,15 +150,25 @@ FAN_ALT = {"hall": "A full training hall at a past Tradenexx event", "selfie": "
            "group": "Group photo after a live training", "class": "A classroom of attendees",
            "award": "Coach Alex receiving an award in Dubai", "cert": "Best Forex CEO 2024 certificate from WikiFX"}
 
-def fan_html(order, heading, lede):
-    cards = "".join(f'<div class="fan-card"><img src="../assets/img/{n}.jpg" alt="{FAN_ALT[n]}" loading="lazy" decoding="async" draggable="false"></div>' for n in order)
-    dots = "".join("<span></span>" for _ in order)
-    return (f'<div class="wrap fan-head"><div class="eyebrow">Proof</div><h2>{h(heading)}</h2><p class="lede">{h(lede)}</p></div>'
-            f'<div class="fan" data-fan><div class="fan-layout">{cards}</div>'
-            f'<div class="fan-controls"><button class="fan-btn" type="button" data-prev aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>'
-            f'<div class="fan-dots" aria-hidden="true">{dots}</div>'
-            f'<button class="fan-btn" type="button" data-next aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button></div></div>'
-            f'<p class="cap fan-cap">Photos and recognition provided by Tradenexx.</p>')
+def gallery_html(order, heading, lede):
+    """Three columns of photos that tilt flat as you scroll. Pick the photos per column so no neighbours repeat."""
+    o = order
+    cols = [[o[0], o[3], o[6], o[1]], [o[2], o[5], o[7], o[4]], [o[5], o[0], o[4], o[3]]]
+    ranges = ["[-10,2]", "[15,5]", "[-10,2]"]
+    pos = {"award": "50% 25%", "cert": "50% 30%"}
+    seen, out = set(), ""
+    for ci, col in enumerate(cols):
+        imgs = ""
+        for n in col:
+            alt = "" if n in seen else FAN_ALT[n]      # a repeated photo is decoration, not a second description
+            seen.add(n)
+            imgs += f'<img src="../assets/img/{n}.jpg" alt="{alt}" loading="lazy" decoding="async" draggable="false" style="object-position:{pos.get(n, "50% 50%")}">'
+        out += f'<div class="gal-col" data-y="{ranges[ci]}">{imgs}</div>'
+    return (f'<div class="gal-head"><div class="eyebrow ba" style="--i:0">Proof</div><h2 class="ba" style="--i:1">{h(heading)}</h2>'
+            f'<p class="lede ba" style="--i:2">{h(lede)}</p>'
+            f'<div class="ba" style="--i:3"><button class="btn" data-join type="button">Reserve your seat</button></div></div>'
+            f'<div class="gal-scroll"><div class="gal-sticky"><div class="gal-grid">{out}</div></div></div>'
+            f'<p class="cap gal-cap">Photos and recognition provided by Tradenexx.</p>')
 
 def h(s): return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
@@ -334,7 +344,7 @@ def build(key, P):
   </div>
 </div></section>
 
-<section class="s t-white fan-sec" aria-label="Photos from past trainings">{fan_html(P["proof_order"], P["proof_h"], P["proof_p"])}</section>
+<section class="s t-white gal-sec" aria-label="Photos from past trainings">{gallery_html(P["proof_order"], P["proof_h"], P["proof_p"])}</section>
 
 <section class="s t-blue d-wave reveal"><div class="wrap">
   <div class="eyebrow rv">How to join</div>

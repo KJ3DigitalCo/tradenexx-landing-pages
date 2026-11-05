@@ -508,26 +508,28 @@ footer a{display:inline-block;padding:12px 0;font-size:13px}
 /* the hero after the video has opened once: a single screen, no scroll-driven pin */
 .hero3.done{height:100vh;height:100svh}
 
-/* proof: a fan of photos with arrows (7 cards at a time, hover pushes the neighbours) */
-.fan-sec{overflow:hidden}
-.fan-sec::after{display:none}
-.fan-head{text-align:center;position:relative;z-index:2}
-.fan-head .lede{margin:0 auto}
-.fan{position:relative;display:flex;flex-direction:column;align-items:center;margin-top:clamp(8px,2vw,24px);touch-action:pan-y}
-.fan-layout{position:relative;width:100%;max-width:80rem;height:19rem}
-.fan-card{position:absolute;left:50%;top:50%;width:9rem;aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:#dbe5fb;opacity:0;transform:translate(-50%,-50%) scale(.5);box-shadow:0 14px 40px rgba(0,22,100,.28);will-change:transform,opacity;cursor:default}
-.fan-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;user-select:none}
-.fan-controls{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:clamp(8px,2vw,20px);position:relative;z-index:30}
-.fan-btn{width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(0,22,100,.3);background:#fff;color:#001664;display:grid;place-items:center;cursor:pointer;flex:none;transition:background .3s var(--ease),color .3s var(--ease),transform .3s var(--ease),border-color .3s}
-.fan-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.fan-btn:hover{background:#001664;color:#fff;transform:scale(1.06)}
-.fan-btn:active{transform:scale(.96)}
-.fan-dots{display:flex;gap:8px;align-items:center}
-.fan-dots span{width:8px;height:8px;border-radius:50%;background:rgba(0,22,100,.2);transition:background .3s var(--ease),transform .3s var(--ease)}
-.fan-dots span.on{background:#001664;transform:scale(1.35)}
-.fan-cap{text-align:center;margin-top:22px}
-@media (min-width:480px){.fan-layout{height:22rem}.fan-card{width:11rem}}
-@media (min-width:640px){.fan-layout{height:24rem}.fan-card{width:13rem}}
-@media (min-width:768px){.fan-layout{height:28rem}.fan-card{width:15rem}}
-@media (min-width:1024px){.fan-layout{height:32rem}.fan-card{width:17rem}}
-@media (prefers-reduced-motion:reduce){.fan-card{transition:none!important}}
+/* proof: a tilted wall of photos that flattens as you scroll (scroll-driven, transform only) */
+section.s.gal-sec{overflow:clip;padding:0}               /* clip, not hidden: hidden would stop the sticky stage from pinning */
+.gal-sec::after{display:none}
+.gal-head{position:relative;z-index:5;text-align:center;padding:clamp(64px,9vw,120px) 20px 0;margin-bottom:-3rem}
+.gal-head::before{content:"";position:absolute;left:50%;top:0;width:min(900px,120%);height:360px;transform:translateX(-50%);background:radial-gradient(ellipse 50% 60% at 50% 40%,rgba(33,78,162,.18),rgba(33,78,162,0) 70%);pointer-events:none;z-index:-1}
+.gal-head h2{margin:14px auto 16px;max-width:18ch;text-wrap:balance}
+.gal-head .lede{margin:0 auto 24px}
+.ba{opacity:0;filter:blur(10px);transition:opacity .9s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--i,0) * .18s)}
+.gal-head.in .ba{opacity:1;filter:blur(0)}
+.gal-scroll{position:relative;height:280vh;perspective:1000px;perspective-origin:center top}
+.gal-sticky{position:sticky;top:0;height:100vh;height:100svh;min-height:30rem;overflow:hidden;perspective:1000px;perspective-origin:center top;padding:0 clamp(8px,2vw,28px)}
+.gal-grid{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;height:100%;border-radius:16px;transform-style:preserve-3d;transform:rotateX(75deg) scale(1.2);transform-origin:50% 50%;will-change:transform}
+.gal-col{display:flex;flex-direction:column;gap:8px;min-width:0;will-change:transform}
+.gal-col:nth-child(1),.gal-col:nth-child(3){margin-top:-.5rem}
+.gal-col:nth-child(2){margin-top:-50%}
+.gal-col img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:8px;box-shadow:0 6px 22px rgba(0,22,100,.22)}
+.gal-cap{text-align:center;margin:0;padding:10px 20px 26px}
+@media (prefers-reduced-motion:reduce){
+  .gal-scroll{height:auto}
+  .gal-sticky{position:relative;height:auto;overflow:visible;padding-top:2rem}
+  .gal-grid{transform:none;height:auto}
+  .gal-col:nth-child(n){margin-top:0}
+  .ba{opacity:1;filter:none;transition:none}
+}
+@media (max-width:760px){.gal-col img{aspect-ratio:3/5}.gal-col{gap:6px}.gal-grid{gap:6px}.gal-col:nth-child(2){margin-top:-30%}}
