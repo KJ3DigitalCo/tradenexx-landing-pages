@@ -157,7 +157,7 @@ FAN_ALT = {"hall": "A full training hall at a past Tradenexx event", "selfie": "
 def gallery_html(order, heading, lede):
     """Three columns of photos that tilt flat as you scroll. Pick the photos per column so no neighbours repeat."""
     o = order
-    cols = [[o[0], o[3], o[6], o[1]], [o[2], o[5], o[7], o[4]], [o[5], o[0], o[4], o[3]]]
+    cols = [[o[0], o[3], o[6]], [o[2], o[5], o[7]], [o[1], o[4]]]     # every photo once, never repeated
     ranges = ["[-10,2]", "[15,5]", "[-10,2]"]
     pos = {"award": "50% 25%", "cert": "50% 30%", "deskselfie": "25% 40%"}
     seen, out = set(), ""
