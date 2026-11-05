@@ -1,0 +1,4 @@
+_review/
+.playwright-cli/
+__pycache__/
+*.zip
