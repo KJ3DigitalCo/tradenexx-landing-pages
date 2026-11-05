@@ -255,6 +255,7 @@
         if (o.i === 0) return;
         const p = clamp((H - top) / (H * 0.75), 0, 1);
         o.r.style.transform = p >= 1 ? '' : 'rotate(' + (30 * (1 - p)).toFixed(2) + 'deg)';
+        o.r.style.willChange = p >= 1 ? 'auto' : 'transform';   // a settled section is a plain layer, so the browser's autofill popup can anchor to its fields
       });
     }
     const kick = () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } };
