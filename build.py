@@ -98,6 +98,7 @@ PAGES = {
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
     seat="Webinar seat", tbd="Dates announced soon",
     proof_h="Real people. Live on Zoom.", proof_p="Moments from past online sessions led by Coach Alex.",
+    herobg="zoom1",
     proof_order=["zoom1", "deskselfie", "award", "zoom3", "cert", "zoom2", "selfie", "zoom5", "zoom4"],
     faq=[("Is this an investment scheme?", "No. You do not give us money to trade. This is education, tools and coaching. Your trading money stays in your own broker account, in your own name."),
          ("Do I need trading experience?", "No. We start from the basics and you practice on a demo account first, so you can learn without risking real money."),
@@ -125,6 +126,7 @@ PAGES = {
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
     seat="Live training seat", tbd="Date and venue announced soon",
     proof_h="This is what the room looks like.", proof_p="Moments from past live trainings led by Coach Alex.",
+    herobg="hall",
     proof_order=["workshop", "laptops", "award", "hall", "cert", "deskselfie", "selfie", "class", "playbook"],
     faq=[("Is this an investment scheme?", "No. You do not give us money to trade. This is education, tools and coaching. Your trading money stays in your own broker account, in your own name."),
          ("Where and when is it?", "The date and venue are announced soon. People who register hear first."),
@@ -270,7 +272,7 @@ def build(key, P):
 
 <header class="hero3" id="top">
   <div class="stage3">
-    <div class="bg3" aria-hidden="true"></div>
+    <div class="bg3" aria-hidden="true" style="--hero:url(../assets/img/{P['herobg']}.jpg)"></div>
     <div class="vframe">
       <!-- VIDEO: set the link in build.py (VIDEOS) and re-run it. Nothing here needs editing by hand. -->
       <div class="vid" data-state="{vstate}" data-src="{h(vsrc)}">

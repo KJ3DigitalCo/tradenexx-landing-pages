@@ -323,7 +323,7 @@ html.mc-scrolling .mc-cursor{opacity:0!important;transition:opacity .12s}
 /* ===== hero: the video opens up as you scroll (normal scrolling, no scroll-jacking) ===== */
 .hero3{position:relative;height:250vh}
 .stage3{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--canvas)}
-.bg3{position:absolute;inset:0;opacity:var(--bgo,1);background:linear-gradient(rgba(5,13,38,.62),rgba(5,13,38,.9)),url(../assets/img/hall.jpg) center/cover no-repeat}
+.bg3{position:absolute;inset:0;opacity:var(--bgo,1);background:linear-gradient(rgba(5,13,38,.62),rgba(5,13,38,.9)),var(--hero,url(../assets/img/hall.jpg)) center/cover no-repeat}
 .vframe{position:absolute;inset:0;background:#02060f;clip-path:inset(var(--ct,28vh) var(--cs,36vw) var(--cb,28vh) var(--cs,36vw) round var(--cr,24px));will-change:clip-path}
 .vframe .vid{position:absolute;inset:0;margin:0;aspect-ratio:auto;border:0;border-radius:0;box-shadow:none;background:linear-gradient(160deg,var(--panel-2),var(--canvas))}
 .vframe .vid[data-state=placeholder] .vid-play{align-items:center;padding:0}
