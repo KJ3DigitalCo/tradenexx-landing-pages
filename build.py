@@ -9,8 +9,17 @@ ASSET_V = str(int(time.time()))   # cache-buster: changes on every build
 SITE_URL      = "https://kj3digitalco.github.io/tradenexx-landing-pages"   # live URL, used by the og tags
 GCASH_NAME    = "To be added"      # account name shown after the form
 GCASH_NUMBER  = "To be added"      # GCash number shown after the form
-ENDPOINT      = "https://docs.google.com/forms/d/e/1FAIpQLScJTpPh0JxHpk6vJThUEXRQUFcjbcZCZPDi_rwF6C_zLRfVMw/formResponse"  # Google Form that saves registrations
-FIELDS        = {'name': 'entry.111817025', 'email': 'entry.1383634402', 'mobile': 'entry.807792033', 'who': 'entry.1394399725', 'product': 'entry.801241235', 'ref': 'entry.85631141', 'price': 'entry.1304411898', 'at': 'entry.653598797'}
+# One Google Form (and so one Sheet) per page. Change the endpoint/fields here to point a page somewhere else.
+FORMS = {
+    "webinar": {  # online webinar -> "Tradenexx Webinar Registrations"
+        "endpoint": "https://docs.google.com/forms/d/e/1FAIpQLScJTpPh0JxHpk6vJThUEXRQUFcjbcZCZPDi_rwF6C_zLRfVMw/formResponse",
+        "fields": {'name': 'entry.111817025', 'email': 'entry.1383634402', 'mobile': 'entry.807792033', 'who': 'entry.1394399725', 'product': 'entry.801241235', 'ref': 'entry.85631141', 'price': 'entry.1304411898', 'at': 'entry.653598797'},
+    },
+    "event": {    # offline live training -> "Tradenexx Live Training Registrations"
+        "endpoint": "https://docs.google.com/forms/d/e/1FAIpQLSd5X1Jb-M0Lil1soywG2fKQTvbLnF_204dPD1-CZrUcSYMH6w/formResponse",
+        "fields": {'name': 'entry.1822913447', 'email': 'entry.592665859', 'mobile': 'entry.249020773', 'who': 'entry.1300424268', 'product': 'entry.709407751', 'ref': 'entry.1327088152', 'price': 'entry.1885423582', 'at': 'entry.1913739855'},
+    },
+}
 # VIDEOS: paste a YouTube link, a Facebook video link, or a file path like "../assets/video/intro.mp4".
 # Leave "" to show the "coming soon" placeholder. POSTER is optional (an image path); the coach photo is the default.
 SAMPLE = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"   # free CC0 sample clip, swap for the real video
@@ -128,7 +137,6 @@ PAGES = {
 }
 
 import json
-FIELDS_JS = json.dumps(FIELDS)
 
 def split_title(t):
     w = t.split()
@@ -365,7 +373,7 @@ def build(key, P):
   </div>
 </dialog>
 
-<script>window.TNX={{product:"{P['product']}",prefix:"{P['prefix']}",price:{PRICE},endpoint:"{ENDPOINT}",fields:{FIELDS_JS}}};</script>
+<script>window.TNX={{product:"{P['product']}",prefix:"{P['prefix']}",price:{PRICE},endpoint:"{FORMS[key]["endpoint"]}",fields:{json.dumps(FORMS[key]["fields"])}}};</script>
 <script src="../assets/datarain.js?v={ASSET_V}"></script>
 <script src="../assets/magnetic.js?v={ASSET_V}"></script>
 <script src="../assets/site.js?v={ASSET_V}"></script>
