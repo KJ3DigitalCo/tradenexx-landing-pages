@@ -98,7 +98,7 @@ PAGES = {
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
     seat="Webinar seat", tbd="Dates announced soon",
     proof_h="Real people. Live on Zoom.", proof_p="Moments from past online sessions led by Coach Alex.",
-    proof_order=["zoom1", "deskselfie", "award", "zoom3", "cert", "zoom2", "zoom4", "zoom5"],
+    proof_order=["zoom1", "deskselfie", "award", "zoom3", "cert", "zoom2", "zoom4", "zoom5", "coach"],
     faq=[("Is this an investment scheme?", "No. You do not give us money to trade. This is education, tools and coaching. Your trading money stays in your own broker account, in your own name."),
          ("Do I need trading experience?", "No. We start from the basics and you practice on a demo account first, so you can learn without risking real money."),
          ("Will I earn money?", "We cannot promise that, and anyone who does is a red flag. Trading and automated trading can lose money, and past results never guarantee future ones. You learn how to manage risk and judge claims for yourself."),
@@ -125,7 +125,7 @@ PAGES = {
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
     seat="Live training seat", tbd="Date and venue announced soon",
     proof_h="This is what the room looks like.", proof_p="Moments from past live trainings led by Coach Alex.",
-    proof_order=["workshop", "laptops", "award", "hall", "group", "cert", "selfie", "class"],
+    proof_order=["workshop", "laptops", "award", "hall", "group", "cert", "selfie", "class", "coach"],
     faq=[("Is this an investment scheme?", "No. You do not give us money to trade. This is education, tools and coaching. Your trading money stays in your own broker account, in your own name."),
          ("Where and when is it?", "The date and venue are announced soon. People who register hear first."),
          ("What should I bring?", "Your laptop. A Windows laptop works best. We help you set up MT5 in the room, and the full details come with your confirmation."),
@@ -148,7 +148,7 @@ def split_title(t):
 FAN_ALT = {"hall": "A full training hall at a past Tradenexx event", "selfie": "Coach Alex taking a selfie with a full room of attendees",
            "workshop": "Attendees working on laptops during a live session", "laptops": "Close view of traders at their laptops",
            "group": "Group photo after a live training", "class": "A classroom of attendees",
-           "award": "Coach Alex receiving an award in Dubai", "cert": "Best Forex CEO 2024 certificate from WikiFX",
+           "award": "Coach Alex receiving an award in Dubai", "cert": "Best Forex CEO 2024 certificate from WikiFX", "coach": "Portrait of Coach Alex Uy",
            "deskselfie": "Coach Alex giving a thumbs up at his desk before a live webinar",
            "zoom1": "Coach Alex and attendees waving during a live Zoom session", "zoom2": "A full Zoom room of attendees during a Tradenexx webinar",
            "zoom3": "Coach Alex and attendees on a live Zoom call", "zoom4": "A Zoom Workplace session with attendees from across the Philippines",
@@ -157,9 +157,9 @@ FAN_ALT = {"hall": "A full training hall at a past Tradenexx event", "selfie": "
 def gallery_html(order, heading, lede):
     """Three columns of photos that tilt flat as you scroll. Pick the photos per column so no neighbours repeat."""
     o = order
-    cols = [[o[0], o[3], o[6]], [o[2], o[5], o[7]], [o[1], o[4]]]     # every photo once, never repeated
+    cols = [[o[0], o[3], o[6]], [o[5], o[2], o[7]], [o[1], o[4], o[8]]]     # nine photos, each once; the award sits in the middle
     ranges = ["[-10,2]", "[15,5]", "[-10,2]"]
-    pos = {"award": "50% 25%", "cert": "50% 30%", "deskselfie": "25% 40%"}
+    pos = {"award": "50% 25%", "cert": "50% 30%", "deskselfie": "25% 40%", "coach": "50% 22%"}
     seen, out = set(), ""
     for ci, col in enumerate(cols):
         imgs = ""
