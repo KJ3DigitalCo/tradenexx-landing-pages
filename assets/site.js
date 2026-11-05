@@ -118,7 +118,7 @@
     const paper = $('canvas', el), ctx = paper.getContext('2d'), host = el.parentElement, avoid = el.dataset.avoid || '';
     const CELL = 24, REACH = 2.6, AMBIENT = 2, MAXLIT = 180, FAINT = 0.13, FADE = 2.2, PAD = 5, FADE_IN = 160, FADE_OUT = 750;
     // Tradenexx blues instead of a rainbow: the hue drifts a little down the field, lightness varies per cell
-    const HUE_TOP = 226, HUE_SPAN = 26, TINTS = [86, 78, 70, 62, 54];
+    const HUE_TOP = 222, HUE_SPAN = 22, TINTS = [92, 86, 80, 74, 68];
     const easeOut = t => 1 - (1 - t) * (1 - t), easeIn = t => t * t;
     let cols = 1, rows = 1, width = 0, height = 0, clear = [];
     const cells = new Map();
