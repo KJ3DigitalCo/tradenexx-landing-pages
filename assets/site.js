@@ -464,7 +464,7 @@
       const d = Object.fromEntries(new FormData(form));
       const num = normMobile(d.mobile);
       const bad = checkName(d.name)
-        || (!/^09\d{9}$/.test(num) ? 'Enter your 11-digit mobile number, like 0917 506 0103.' : fakeNumber(num) ? 'That number looks made up. Enter your real GCash number.' : '')
+        || (!/^09\d{9}$/.test(num) ? 'Enter your 11-digit mobile number, like 09XX XXX XXXX.' : fakeNumber(num) ? 'That number looks made up. Enter your real GCash number.' : '')
         || checkEmail(d.email);
       if (bad) { err.textContent = bad; return; }
       const goodDomain = await domainAcceptsMail(d.email.trim().toLowerCase().split('@')[1]);
