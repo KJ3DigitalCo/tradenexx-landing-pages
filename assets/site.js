@@ -452,12 +452,15 @@
 
   function wireReg(box) {
     const isDlg = box.matches('dialog'), form = $('form', box), err = $('.err', box), mob = form.mobile;
+    // the form at the bottom of the page does step 1 only: payment and the thank-you open in the popup
+    const popup = !isDlg ? $('dialog.reg') : null, target = popup || box;
     const toStep = n => {
-      box.dataset.step = n;
-      if (isDlg) box.scrollTo({ top: 0 });
+      target.dataset.step = n;
+      if (popup) { if (!popup.open) popup.showModal(); popup.scrollTo({ top: 0 }); if (n === '2') { form.reset(); err.textContent = ''; } }
+      else if (isDlg) box.scrollTo({ top: 0 });
       else box.scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'center' });
     };
-    const fill = (ref, name) => { $$('[data-ref]', box).forEach(n => n.textContent = ref); $$('[data-name]', box).forEach(n => n.textContent = name.split(' ')[0]); };
+    const fill = (ref, name) => { $$('[data-ref]', target).forEach(n => n.textContent = ref); $$('[data-name]', target).forEach(n => n.textContent = name.split(' ')[0]); };
     mob.addEventListener('input', () => { mob.value = fmtMobile(normMobile(mob.value).slice(0, 11)); });
 
     form.addEventListener('submit', async e => {
