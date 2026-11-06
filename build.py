@@ -1,4 +1,4 @@
-﻿"""Generates webinar/index.html and event/index.html from one template.
+"""Generates webinar/index.html and event/index.html from one template.
 Run:  python build.py
 Edit the CONFIG block and the PAGES copy below, then run again."""
 import os, re, time
@@ -434,9 +434,6 @@ for key, P in PAGES.items():
     open(f"{key}/index.html", "w", encoding="utf-8", newline="\n").write(build(key, P))
     print("wrote", f"{key}/index.html")
 
-# root: a tiny chooser so the GitHub Pages root is not empty
-open("index.html", "w", encoding="utf-8", newline="\n").write("""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tradenexx</title><meta name="theme-color" content="#050d26"><meta name="robots" content="noindex, nofollow">
-<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050d26;color:#eef2fb;font:16px/1.6 "IBM Plex Mono",ui-monospace,monospace}main{display:grid;gap:14px;width:min(420px,88vw);text-align:center}h1{font:700 28px Tahoma,Verdana,sans-serif;margin:0 0 8px}a{display:block;padding:16px;border:1px solid #2a427f;border-radius:14px;color:#eef2fb;text-decoration:none}a:hover{background:#0e2255}</style></head>
-<body><main><h1>Tradenexx</h1><a href="webinar/">Online webinar</a><a href="event/">Live training</a></main></body></html>
-""")
+# root: the chooser page lives in chooser.html
+open("index.html", "w", encoding="utf-8", newline="\n").write(open("chooser.html", encoding="utf-8").read())
 print("wrote index.html")
