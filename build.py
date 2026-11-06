@@ -1,4 +1,4 @@
-"""Generates webinar/index.html and event/index.html from one template.
+﻿"""Generates webinar/index.html and event/index.html from one template.
 Run:  python build.py
 Edit the CONFIG block and the PAGES copy below, then run again."""
 import os, re, time
@@ -23,8 +23,8 @@ FORMS = {
 # VIDEOS: paste a YouTube link, a Facebook video link, or a file path like "../assets/video/intro.mp4".
 # Leave "" to show the "coming soon" placeholder. POSTER is optional (an image path); the coach photo is the default.
 SAMPLE = "https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"   # placeholder clip with sound (Blender, CC-BY), swap for the real video
-VIDEOS = {"webinar": {"src": SAMPLE, "poster": "../assets/img/playbook.jpg"},
-          "event":   {"src": SAMPLE, "poster": "../assets/img/group.jpg"}}
+VIDEOS = {"webinar": {"src": "../assets/vid/intro.mp4", "poster": "../assets/img/playbook.jpg"},
+          "event":   {"src": "../assets/vid/intro.mp4", "poster": "../assets/img/group.jpg"}}
 PRICE         = 500
 COMPANY_LINE  = "Tradenexx is registered in the United Kingdom (Companies House no. 17483940)."
 
