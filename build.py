@@ -200,7 +200,7 @@ def reg_inner(P, pid, inline):
       <h3>Pay by GCash</h3>
       <p class="lede" style="font-size:14px">Thanks, <span data-name></span>. Scan the code or send to the number, then tap the button below.</p>
       <div class="pay">
-        <div class="qr"><img src="../assets/gcash-qr.png" alt="GCash QR code" loading="lazy" onerror="this.replaceWith(document.createTextNode('GCash QR code goes here'))"></div>
+        <div class="qr"><img src="../assets/gcash-qr.webp" alt="GCash QR code" width="475" height="470" loading="lazy" decoding="async" onerror="if(!this.dataset.r){{this.dataset.r=1;this.src=this.src.split('?')[0]+'?r='+Date.now()}}else{{this.replaceWith(document.createTextNode('GCash QR code goes here'))}}"></div>
         <dl><div><dt>Amount</dt><dd>₱{PRICE}</dd></div><div><dt>GCash name</dt><dd>{h(GCASH_NAME)}</dd></div><div><dt>GCash number</dt><dd>{h(GCASH_NUMBER)}</dd></div></dl>
       </div>
       <div class="ref">Put this reference code in your GCash message: <b data-ref></b></div>
