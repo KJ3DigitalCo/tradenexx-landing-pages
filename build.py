@@ -23,7 +23,6 @@ FORMS = {
 }
 # VIDEOS: paste a YouTube link, a Facebook video link, or a file path like "../assets/video/intro.mp4".
 # Leave "" to show the "coming soon" placeholder. POSTER is optional (an image path); the coach photo is the default.
-SAMPLE = "https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"   # placeholder clip with sound (Blender, CC-BY), swap for the real video
 VIDEOS = {"webinar": {"src": "../assets/vid/intro.mp4", "poster": "../assets/img/playbook.jpg"},
           "event":   {"src": "../assets/vid/intro.mp4", "poster": "../assets/img/group.jpg"}}
 PRICE         = 500
@@ -312,8 +311,7 @@ def build(key, P):
 {MARQUEE}
 
 <main id="main" tabindex="-1">
-<section class="s t-navy d-dots fx reveal">
-  <div class="dr-root dr-local" aria-hidden="true"><canvas class="dr-bloom"></canvas><canvas class="dr-main"></canvas><div class="dr-vignette"></div><div class="dr-grain"></div></div>
+<section class="s t-navy d-dots reveal">
 <div class="wrap">
   <div class="eyebrow rv">Who it is for</div>
   <h2 class="rv">{h(C['who_h'])}</h2>
@@ -441,8 +439,6 @@ def build(key, P):
 </dialog>
 
 <script>window.TNX={{product:"{P['product']}",prefix:"{P['prefix']}",price:{PRICE},endpoint:"{FORMS[key]["endpoint"]}",fields:{json.dumps(FORMS[key]["fields"])}}};</script>
-<script src="../assets/datarain.js?v={ASSET_V}"></script>
-<script src="../assets/magnetic.js?v={ASSET_V}"></script>
 <script src="../assets/site.js?v={ASSET_V}"></script>
 </body>
 </html>

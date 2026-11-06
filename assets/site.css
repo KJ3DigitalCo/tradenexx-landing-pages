@@ -28,15 +28,12 @@ h1,h2,h3{font-family:var(--head);font-weight:700;line-height:1.1;letter-spacing:
 .skip{position:absolute;left:-999px;top:8px;background:#fff;color:#000;padding:8px 12px;z-index:100}
 .skip:focus{left:8px}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
-.mono{font-family:var(--body)}
 .eyebrow{font:500 12px/1 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--soft)}
 
 /* one environment: fixed drifting grid + glow behind everything */
 .env{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
   radial-gradient(ellipse 70% 55% at 75% 12%,rgba(33,78,162,.34),transparent 70%),
   radial-gradient(ellipse 60% 50% at 10% 90%,rgba(0,22,100,.55),transparent 70%)}
-.env::after-unused{content:"";position:absolute;inset:-60px;background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);background-size:64px 64px;opacity:.35;mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 20%,transparent 75%);animation:drift 80s linear infinite}
-@keyframes drift{to{transform:translate(64px,64px)}}
 
 /* nav */
 nav.top{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(16px,4vw,48px);transition:background .4s var(--ease),backdrop-filter .4s var(--ease)}
@@ -139,10 +136,7 @@ label.f{display:block;font:500 12px/1 var(--body);letter-spacing:.14em;text-tran
 .proof .c{grid-column:span 2;aspect-ratio:4/3}
 .proof .d{grid-column:span 2;aspect-ratio:4/3;margin-top:24px}
 .proof .e{grid-column:span 2;aspect-ratio:4/3}
-.recog{display:grid;grid-template-columns:1fr 1fr 1.1fr;gap:14px;margin-top:14px}
-.recog figure{margin:0;border-radius:18px;overflow:hidden;border:1px solid var(--line-soft)}
-.recog img{width:100%;height:100%;object-fit:cover}
-@media (max-width:760px){.proof .a,.proof .b{grid-column:span 6;margin-top:0}.proof .c,.proof .d,.proof .e{grid-column:span 3;margin-top:0}.proof .e{grid-column:span 6}.recog{grid-template-columns:1fr 1fr}.recog figure:last-child{grid-column:span 2}}
+@media (max-width:760px){.proof .a,.proof .b{grid-column:span 6;margin-top:0}.proof .c,.proof .d,.proof .e{grid-column:span 3;margin-top:0}.proof .e{grid-column:span 6}}
 .cap{font-size:12px;color:var(--text-2);margin-top:12px}
 
 /* steps + faq */
@@ -212,14 +206,6 @@ dialog.reg[open]{animation:pop .5s var(--ease)}
 .calc input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--accent);border:0;box-shadow:0 0 0 6px rgba(164,181,219,.18)}
 
 /* data rain: fixed full-page background, tinted with the Tradenexx blues */
-:root{--dr-calm:#5b8cff;--dr-mid:#3566d4;--dr-hot:#A4B5DB;--dr-core:#eef2fb;--dr-vignette:.7;--dr-grain:.04;--dr-bloom-blur:10px;--dr-bloom-opacity:.55}
-.dr-root{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;opacity:.7;animation:dr-fade-in 2.2s var(--ease) both}
-.dr-main,.dr-bloom{position:absolute;inset:0;width:100%;height:100%;display:block}
-.dr-bloom{filter:blur(var(--dr-bloom-blur));opacity:var(--dr-bloom-opacity)}
-.dr-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 85% 75% at 50% 45%,rgba(5,13,38,0) 35%,rgba(5,13,38,var(--dr-vignette)) 100%)}
-.dr-grain{position:absolute;inset:0;opacity:var(--dr-grain);mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-@keyframes dr-fade-in{from{opacity:0}to{opacity:.7}}
-@media (prefers-reduced-motion:reduce){.dr-root{animation:none}}
 
 /* video frame: placeholder now, real video after one click */
 .vid{position:relative;margin-top:40px;aspect-ratio:16/9;border-radius:26px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,var(--panel-2),var(--canvas));isolation:isolate}
@@ -242,18 +228,10 @@ dialog.reg[open]{animation:pop .5s var(--ease)}
 @media (max-width:760px){.vid{border-radius:18px}.vid-art{width:64%;right:-14%;opacity:.55}.vid[data-state=placeholder] .vid-play{align-items:center;padding:0}}
 
 /* ===== hero with the video in it ===== */
-.hero2{position:relative;padding:clamp(120px,16vh,170px) clamp(20px,6vw,96px) clamp(56px,8vw,96px);text-align:center}
-.hero2 .wrap{max-width:1040px}
-.hero2 h1{font-size:clamp(36px,6.4vw,76px);margin:18px auto 20px;max-width:16ch;text-wrap:balance;text-shadow:var(--tshadow)}
-.hero2 .lede{margin:0 auto;max-width:54ch;text-shadow:var(--tshadow)}
-.hero2 .vid{margin:clamp(30px,5vw,52px) auto 0;box-shadow:0 40px 120px rgba(0,0,0,.5),0 0 0 1px rgba(164,181,219,.12)}
-.hero-cta{display:flex;flex-wrap:wrap;gap:18px 30px;justify-content:center;align-items:center;margin-top:clamp(26px,4vw,40px)}
-.hero-cta .meta{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center}
 
 /* ===== every section gets its own color, so you can tell where one ends ===== */
 .t-navy{--bg:#0a1a44;--text:#eef2fb;--text-2:#b6c3e3;--line:#2f4a8c;--line-soft:rgba(164,181,219,.2);--soft:#A4B5DB}
 .t-blue{--bg:linear-gradient(160deg,#2a5cb8 0%,#214EA2 55%,#183d85 100%);--text:#ffffff;--text-2:#dbe5fb;--line:rgba(255,255,255,.4);--line-soft:rgba(255,255,255,.22);--soft:#dbe5fb;--accent:#ffffff;--accent-hover:#A4B5DB;--accent-fg:#001664}
-.t-soft{--bg:#A4B5DB;--text:#001664;--text-2:#1b2f6e;--line:rgba(0,22,100,.45);--line-soft:rgba(0,22,100,.2);--soft:#16337a;--accent:#001664;--accent-hover:#214EA2;--accent-fg:#ffffff}
 .t-deep{--bg:#001664;--text:#eef2fb;--text-2:#b9c6e8;--line:#34519a;--line-soft:rgba(164,181,219,.22);--soft:#A4B5DB}
 .t-white{--bg:#f3f6fc;--text:#001664;--text-2:#34446f;--line:rgba(0,22,100,.35);--line-soft:rgba(0,22,100,.15);--soft:#214EA2;--accent:#001664;--accent-hover:#214EA2;--accent-fg:#ffffff}
 .t-ink{--bg:#03071a;--text:#eef2fb;--text-2:#aebbdc;--line:#2a427f;--line-soft:rgba(164,181,219,.16);--soft:#A4B5DB}
@@ -261,13 +239,11 @@ dialog.reg[open]{animation:pop .5s var(--ease)}
 .t-cta{background:var(--bg);color:var(--text)}
 .s .wrap,.final>*:not(.deco){position:relative;z-index:1}
 .s .eyebrow{color:var(--soft)}
-.t-soft .eyebrow,.t-white .eyebrow{font-weight:500}
+.t-white .eyebrow{font-weight:500}
 /* the calculator card keeps its own dark look on the light section */
 .calc{--text:#eef2fb;--text-2:#b6c3e3;--soft:#A4B5DB;--line:#2f4a8c;--accent:#A4B5DB;color:#eef2fb;box-shadow:0 30px 80px rgba(0,22,100,.35);background:linear-gradient(160deg,#0e2255,#050d26)}
-.t-white .price,.t-white .recog{color:var(--text)}
-.t-soft .faq summary::after{color:var(--soft)}
+.t-white .price{color:var(--text)}
 .t-white .facts li::before{background:var(--soft)}
-.t-soft .faq details p{color:var(--text-2)}
 .t-white .coach .ph{border-color:var(--line);box-shadow:0 30px 70px rgba(0,22,100,.25)}
 .t-white .ph::after{background:linear-gradient(180deg,transparent 70%,rgba(0,22,100,.35))}
 .t-blue .mod::before{background:#214EA2;border-color:rgba(255,255,255,.55)}
@@ -296,10 +272,7 @@ main{counter-reset:sec}
 /* included: diagonal hatching */
 .d-stripes::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(164,181,219,.09) 0 2px,transparent 2px 22px);mask-image:radial-gradient(ellipse 90% 80% at 80% 20%,#000,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 90% 80% at 80% 20%,#000,transparent 75%);z-index:0}
 /* coach: big rings behind the portrait */
-.d-rings .deco{left:-12%;top:50%;width:min(62%,760px);transform:translateY(-50%);color:rgba(33,78,162,.2)}
 /* proof: film-strip holes along both edges */
-.d-film::before,.d-film::before{content:"";position:absolute;left:0;right:0;top:12px;height:12px;background:repeating-linear-gradient(90deg,rgba(164,181,219,.35) 0 14px,transparent 14px 30px);border-radius:3px;z-index:0}
-.d-film::after{color:transparent}
 /* steps: sweeping dotted wave */
 .d-wave::before{content:"";position:absolute;left:-5%;right:-5%;top:34%;height:180px;background:radial-gradient(circle,rgba(255,255,255,.55) 2px,transparent 2.5px) 0 0/22px 22px;mask-image:linear-gradient(180deg,transparent,#000 50%,transparent);-webkit-mask-image:linear-gradient(180deg,transparent,#000 50%,transparent);transform:skewY(-6deg);opacity:.5;z-index:0}
 /* faq: plus-sign grid */
@@ -307,18 +280,10 @@ main{counter-reset:sec}
 /* final call: rings opening up from the bottom */
 .final{position:relative;overflow:hidden}
 .final .deco{left:50%;bottom:-55%;width:min(120%,1200px);transform:translateX(-50%);color:rgba(255,255,255,.22)}
-@media (max-width:760px){.s::after{font-size:96px;opacity:.7}.d-chart .deco{width:110%;right:-30%;opacity:.7}.d-rings .deco{left:-40%;width:110%}}
+@media (max-width:760px){.s::after{font-size:96px;opacity:.7}.d-chart .deco{width:110%;right:-30%;opacity:.7}}
 
-/* magnetic cursor (fine pointers only; magnetic.js adds html.mc-on) */
-.mc-cursor{position:fixed;left:0;top:0;z-index:9999;border-radius:50%;background:#fff;mix-blend-mode:exclusion;pointer-events:none;opacity:0;transition:opacity .3s var(--ease);will-change:transform}
-.mc-cursor.mc-show{opacity:1}
-.mc-cursor.mc-hide{opacity:0}
-html.mc-modal .mc-cursor{display:none}
-html.mc-in:not(.mc-modal) .fx,html.mc-in:not(.mc-modal) .fx *{cursor:none!important}
-html.mc-in:not(.mc-modal) .fx input,html.mc-in:not(.mc-modal) .fx select{cursor:text!important}
 .btn,.logo-plate,.proof figure,.faq summary,.vid-btn{translate:0 0;transition-property:background,transform,box-shadow}
 
-html.mc-scrolling .mc-cursor{opacity:0!important;transition:opacity .12s}
 
 /* ===== hero: the video opens up as you scroll (normal scrolling, no scroll-jacking) ===== */
 .hero3{position:relative;height:250vh}
@@ -344,8 +309,6 @@ html.mc-scrolling .mc-cursor{opacity:0!important;transition:opacity .12s}
 }
 
 /* rain layer scoped to one section */
-.dr-local{position:absolute;inset:0;z-index:0;opacity:.95;animation:none}
-.fx .dr-vignette{background:radial-gradient(ellipse 90% 85% at 50% 50%,rgba(var(--fxv,10,26,68),0) 40%,rgba(var(--fxv,10,26,68),.85) 100%)}
 .who>div{will-change:translate}
 
 /* CTA row now lives under the four columns */
@@ -390,9 +353,6 @@ footer a{display:inline-block;padding:12px 0;font-size:13px}
 }
 
 /* the rain on the light-blue section: dark navy lines, light edge shading */
-.t-soft.fx{--fxv:164,181,219;--dr-calm:#214EA2;--dr-mid:#16337a;--dr-hot:#001664;--dr-core:#001664;--dr-grain:.06}
-.t-soft.fx .dr-local{opacity:1}
-.t-soft.fx .dr-bloom{opacity:.35}
 
 /* calculator: make it obvious that it can be typed in and dragged */
 .calc-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
@@ -467,11 +427,9 @@ footer a{display:inline-block;padding:12px 0;font-size:13px}
 .t-pale .price{--text:#eef2fb;--text-2:#b9c6e8;--soft:#A4B5DB;--line:#34519a;--accent:#ffffff;--accent-hover:#dbe5fb;--accent-fg:#001664;color:#eef2fb;background:linear-gradient(160deg,#0e2255,#0a1a44);border-color:#34519a;box-shadow:0 24px 60px rgba(0,22,100,.3)}
 
 /* 05 coach (navy) */
-.t-navy.d-rings .deco{color:rgba(164,181,219,.14)}
 .t-navy .coach .ph{box-shadow:0 30px 70px rgba(0,0,0,.45)}
 
 /* 06 proof (white): film holes in navy */
-.t-white.d-film::before{background:repeating-linear-gradient(90deg,rgba(0,22,100,.2) 0 14px,transparent 14px 30px)}
 .t-white .cap{color:var(--text-2)}
 
 /* 08 faq (pale) */
@@ -479,12 +437,7 @@ footer a{display:inline-block;padding:12px 0;font-size:13px}
 .t-pale .faq details p{color:var(--text-2)}
 
 /* cursor: white dot with a navy ring (the colour inversion turned gold on blue) */
-.mc-cursor{mix-blend-mode:normal;background:rgba(255,255,255,.94);box-shadow:0 0 0 2px #001664,0 8px 24px rgba(0,22,100,.35)}
 
-/* rain on the pale-blue "What is included" section: navy lines, pale edge shading */
-.t-pale.fx{--fxv:230,237,250;--dr-calm:#214EA2;--dr-mid:#16337a;--dr-hot:#001664;--dr-core:#001664;--dr-grain:.06}
-.t-pale.fx .dr-local{opacity:1}
-.t-pale.fx .dr-bloom{opacity:.3}
 
 /* final section: copy on the left, the registration form on the right */
 .final{text-align:left;padding:clamp(72px,10vw,130px) clamp(20px,6vw,96px)}
@@ -655,7 +608,6 @@ dialog.reg::before,dialog.reg::after{inset:0}
   }
 }
 @keyframes fswing{from{transform:rotate(30deg)}to{transform:none}}
-@keyframes ffade{from{opacity:0}to{opacity:1}}
 
 .final>.aur{position:absolute;inset:0;z-index:0}
 .final>.final-grid{z-index:1}
