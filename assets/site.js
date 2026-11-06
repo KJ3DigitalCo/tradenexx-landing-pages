@@ -4,6 +4,14 @@
   const T = window.TNX || {};
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  // sign-up section: tell the CSS where the section's bottom-left corner is, as seen from the form grid, so both swing in around the same point
+  const fin = $('.final'), fgrid = fin && $('.final-grid', fin);
+  if (fgrid) {
+    const setOrigin = () => { fin.style.setProperty('--ox', -fgrid.offsetLeft + 'px'); fin.style.setProperty('--oy', fin.offsetHeight - fgrid.offsetTop + 'px'); };
+    setOrigin(); addEventListener('load', setOrigin);
+    if ('ResizeObserver' in window) new ResizeObserver(setOrigin).observe(fin);
+  }
+
   // once the page itself has loaded, quietly fetch the lazy photos too, so the gallery is never blank when scrolled fast
   addEventListener('load', () => setTimeout(() => $$('img[loading="lazy"]').forEach(i => { i.loading = 'eager'; }), 400));
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));

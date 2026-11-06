@@ -648,8 +648,10 @@ dialog.reg::before,dialog.reg::after{inset:0}
 @supports (animation-timeline:view()){
   @media (prefers-reduced-motion:no-preference){
     .flow.on>.final{background:none;overflow:visible}
-    .flow.on>.final>.aur{background:var(--bg);transform-origin:0 100%;animation:fswing linear backwards;animation-timeline:view();animation-range:entry 0% entry 47%}
-    .flow.on>.final>.final-grid{animation:ffade linear backwards;animation-timeline:view();animation-range:entry 14% entry 47%}
+    .flow.on>.final{view-timeline:--fin block}
+    .flow.on>.final>.aur{background:var(--bg);transform-origin:0 100%;animation:fswing linear backwards;animation-timeline:--fin;animation-range:entry 0% entry 47%}
+    /* the text and form turn with the background around the same corner (origin set by site.js); once settled nothing is transformed, so autofill works */
+    .flow.on>.final>.final-grid{transform-origin:var(--ox,0) var(--oy,100%);animation:fswing linear backwards;animation-timeline:--fin;animation-range:entry 0% entry 47%}
   }
 }
 @keyframes fswing{from{transform:rotate(30deg)}to{transform:none}}
