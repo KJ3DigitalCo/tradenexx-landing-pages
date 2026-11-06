@@ -659,3 +659,6 @@ dialog.reg::before,dialog.reg::after{inset:0}
 
 .final>.aur{position:absolute;inset:0;z-index:0}
 .final>.final-grid{z-index:1}
+
+/* phones are portrait: slide the hero photo so the coach's face stays in view */
+@media (max-width:760px){.bg3{background-position:0 0,var(--hpm,center)}}

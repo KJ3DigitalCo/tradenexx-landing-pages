@@ -100,7 +100,7 @@ PAGES = {
     seat="Webinar seat", tbd="Dates announced soon",
     proof_h="Real people. Live on Zoom.", proof_p="Moments from past online sessions led by Coach Alex.",
     herobg="alexdesk",
-    herobgpos="50% 22%;--o1:.35;--o2:.8",
+    herobgpos="50% 22%;--o1:.35;--o2:.8", herobgposm="12% 22%",
     proof_order=["zoom1", "deskselfie", "award", "zoom3", "cert", "zoom2", "selfie", "zoom5", "zoom4"],
     faq=[("Is this an investment scheme?", "No. You do not give us money to trade. This is education, tools and coaching. Your trading money stays in your own broker account, in your own name."),
          ("Do I need trading experience?", "No. We start from the basics and you practice on a demo account first, so you can learn without risking real money."),
@@ -286,13 +286,13 @@ def build(key, P):
 <div class="progress" aria-hidden="true"><i></i></div>
 <div class="env" aria-hidden="true"></div>
 <nav class="top" aria-label="Main">
-  <a class="logo-plate" href="./" aria-label="Tradenexx home"><img src="../assets/img/logo.png" alt="Tradenexx" width="301" height="250"></a>
+  <a class="logo-plate" href="./" aria-label="Tradenexx home"><img src="../assets/img/logo.webp" alt="Tradenexx" width="101" height="84"></a>
   <button class="btn small" data-join type="button">Reserve your seat</button>
 </nav>
 
 <header class="hero3" id="top">
   <div class="stage3">
-    <div class="bg3" aria-hidden="true" style="--hp:{P.get('herobgpos','center')};--hero:url(../assets/img/{P['herobg']}.jpg)"></div>
+    <div class="bg3" aria-hidden="true" style="--hp:{P.get('herobgpos','center')};--hpm:{P.get('herobgposm', P.get('herobgpos','center').split(';')[0])};--hero:url(../assets/img/{P['herobg']}.jpg)"></div>
     <div class="vframe">
       <!-- VIDEO: set the link in build.py (VIDEOS) and re-run it. Nothing here needs editing by hand. -->
       <div class="vid" data-state="{vstate}" data-src="{h(vsrc)}">
