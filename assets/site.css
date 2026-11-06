@@ -20,8 +20,8 @@
 }
 *{box-sizing:border-box;margin:0}
 html{overflow-x:hidden;overflow-x:clip;scroll-behavior:smooth;background:var(--canvas)}
-body{overflow-x:hidden;overflow-x:clip;background:transparent;color:var(--text);font:400 15px/1.7 var(--body);-webkit-font-smoothing:antialiased;opacity:0;transition:opacity .8s var(--ease)}
-body.ready{opacity:1}
+body{overflow-x:hidden;overflow-x:clip;background:transparent;color:var(--text);font:400 15px/1.7 var(--body);-webkit-font-smoothing:antialiased;animation:pagein .5s var(--ease) both}   /* pure-CSS fade-in: starts at first paint, no waiting for JS (a JS-gated fade left PageSpeed with no LCP) */
+@keyframes pagein{from{opacity:0}}
 img{max-width:100%;display:block}
 a{color:inherit}
 h1,h2,h3{font-family:var(--head);font-weight:700;line-height:1.1;letter-spacing:-.01em}
@@ -181,7 +181,7 @@ dialog.reg[open]{animation:pop .5s var(--ease)}
 .reg input,.reg select{width:100%;font:400 16px/1.2 var(--body);color:var(--text);background:rgba(5,13,38,.6);border:1px solid var(--line);border-radius:12px;padding:14px;min-height:48px}
 .reg input:focus,.reg select:focus{outline:2px solid var(--accent);outline-offset:1px}
 .reg .chk{display:flex;gap:12px;align-items:flex-start;font-size:12.5px;color:var(--text-2)}
-.reg .chk input{width:20px;height:20px;min-height:0;margin-top:2px;accent-color:var(--soft)}
+.reg .chk input{width:24px;height:24px;min-height:0;margin:0 0 0 -2px;flex:none;accent-color:var(--soft)}   /* 24px: the minimum comfortable touch target */
 .reg .err{color:#ffb4b4;font-size:13px;min-height:1em}
 .step2,.step3{display:none}
 .reg[data-step="2"] .step1,.reg[data-step="3"] .step1{display:none}
