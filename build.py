@@ -6,7 +6,8 @@ import os, re, time
 ASSET_V = str(int(time.time()))   # cache-buster: changes on every build
 
 # ---------------- CONFIG: fill these in, then re-run ----------------
-SITE_URL      = "https://kj3digitalco.github.io/tradenexx-landing-pages"   # live URL, used by the og tags
+SITE_URL      = "https://founderalexanderuy.com"   # live URL: canonical, og tags, sitemap
+NOINDEX       = True    # True = hidden from Google. Set to False on launch day (after the client confirms the facts), then re-run.
 GCASH_NAME    = "AL******R U."      # account name shown after the form
 GCASH_NUMBER  = "0917 867 ••••"      # GCash number shown after the form
 # One Google Form (and so one Sheet) per page. Change the endpoint/fields here to point a page somewhere else.
@@ -81,7 +82,7 @@ COMMON = dict(
 
 PAGES = {
  "webinar": dict(
-    title="Tradenexx Online Webinar | Learn to trade with discipline",
+    title="Online Trading Webinar Philippines | Tradenexx with Coach Alex Uy",
     desc="A 4-session live online webinar with Coach Alex Uy. Learn MT5, risk, reading the market and automated trading, with no hype. Just 500 pesos.",
     prefix="TNX-W", product="webinar", video_h="A word from Coach Alex.", video_p="See what the four sessions are about and who they are for.", other="../event/", other_label="Prefer a live classroom? See the live training",
     bands=[(0, .25, "Online webinar · 4 live sessions", "See the system before you trust it.", "Learn how trading and automated trading really work, live with Coach Alex Uy. No hype and no promises of quick money.", ["₱500", "4 sessions, 2 hours each", "From your own laptop"], None),
@@ -110,7 +111,7 @@ PAGES = {
     final_h="Learn the system. Then decide for yourself.",
     final_p="Four live sessions, a playbook, and a month of coaching for ₱500."),
  "event": dict(
-    title="Tradenexx Live Training | One day classroom session with Coach Alex",
+    title="Live Trading Training Philippines | Tradenexx with Coach Alex Uy",
     desc="An 8-hour live classroom training with Coach Alex Uy. Bring your laptop, learn MT5, risk and automated trading in person. Just 500 pesos.",
     prefix="TNX-L", product="live-training", video_h="See what the live training is like.", video_p="A short look at the room, the laptops, and a full day with Coach Alex.", other="../webinar/", other_label="Prefer to learn online? See the webinar",
     bands=[(0, .25, "Live training · 1 day · classroom", "One day. Eight hours. In person.", "Sit in the room with Coach Alex Uy and learn to trade with discipline, on your own laptop, with help beside you.", ["₱500", "8 hours", "Classroom session"], None),
@@ -213,6 +214,19 @@ def reg_inner(P, pid, inline):
       {'<button class="btn ghost" type="button" data-reset>Register someone else</button>' if inline else '<button class="btn ghost" type="button" data-close>Close</button>'}
     </div>"""
 
+OGIMG = {"webinar": "zoom2.jpg", "event": "hall.jpg"}
+ROBOTS = '<meta name="robots" content="noindex, nofollow">' if NOINDEX else '<meta name="robots" content="index, follow, max-image-preview:large">'
+
+def ldjson(key, P):
+    org = {"@type": "Organization", "name": "Tradenexx", "url": SITE_URL + "/", "logo": SITE_URL + "/assets/favicon.png",
+           "founder": {"@type": "Person", "name": "Alex Uy", "jobTitle": "Founder, Tradenexx"}}
+    course = {"@type": "Course", "name": P["title"].split(" | ")[0], "description": P["desc"], "url": f"{SITE_URL}/{key}/",
+              "provider": org, "inLanguage": "en-PH",
+              "offers": {"@type": "Offer", "price": str(PRICE), "priceCurrency": "PHP", "availability": "https://schema.org/InStock", "url": f"{SITE_URL}/{key}/"},
+              "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online" if key == "webinar" else "onsite"}}
+    return {"@context": "https://schema.org", "@graph": [org, course]}
+
+
 def build(key, P):
     C = COMMON
     who = "".join(f'<div class="rv"><span class="n">0{i+1}</span><h3>{h(t)}</h3><p>{h(d)}</p></div>' for i, (t, d) in enumerate(C["who"]))
@@ -250,13 +264,18 @@ def build(key, P):
 <title>{h(P['title'])}</title>
 <meta name="description" content="{h(P['desc'])}">
 <meta name="theme-color" content="#050d26">
-<meta name="robots" content="noindex, nofollow"><!-- LAUNCH STEP: delete this line when the GCash details and the real video are in -->
-<!-- DEPLOY STEP: set SITE_URL in build.py to the live GitHub Pages URL and re-run, so these two tags are absolute -->
+{ROBOTS}
+<link rel="canonical" href="{SITE_URL}/{key}/">
+<meta property="og:site_name" content="Tradenexx">
+<meta property="og:locale" content="en_PH">
 <meta property="og:title" content="{h(P['title'])}">
 <meta property="og:description" content="{h(P['desc'])}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{SITE_URL}/{key}/">
-<meta property="og:image" content="{SITE_URL}/assets/img/hall.jpg">
+<meta property="og:image" content="{SITE_URL}/assets/img/{OGIMG[key]}">
+<meta property="og:image:alt" content="{h(P['title'])}">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{json.dumps(ldjson(key, P), ensure_ascii=False)}</script>
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
@@ -435,5 +454,17 @@ for key, P in PAGES.items():
     print("wrote", f"{key}/index.html")
 
 # root: the chooser page lives in chooser.html
-open("index.html", "w", encoding="utf-8", newline="\n").write(open("chooser.html", encoding="utf-8").read())
+chooser = open("chooser.html", encoding="utf-8").read().replace('<meta name="robots" content="noindex, nofollow">', ROBOTS)
+chooser = chooser.replace("</head>", f'''<link rel="canonical" href="{SITE_URL}/">
+<meta property="og:site_name" content="Tradenexx"><meta property="og:locale" content="en_PH"><meta property="og:type" content="website">
+<meta property="og:title" content="Tradenexx | Learn automated trading with Coach Alex Uy">
+<meta property="og:description" content="Choose how you want to learn with Coach Alex Uy: a 4-session online webinar or a one-day live classroom training. Just 500 pesos.">
+<meta property="og:url" content="{SITE_URL}/"><meta property="og:image" content="{SITE_URL}/assets/img/hall.jpg"><meta name="twitter:card" content="summary_large_image">
+</head>''', 1)
+open("index.html", "w", encoding="utf-8", newline="\n").write(chooser)
 print("wrote index.html")
+
+# robots.txt and sitemap.xml (robots never blocks, so Facebook can still read the link preview; the noindex tag does the hiding)
+open("robots.txt", "w", newline="\n").write("User-agent: *\n" + "Allow: /\n" + f"\nSitemap: {SITE_URL}/sitemap.xml\n")
+open("sitemap.xml", "w", encoding="utf-8", newline="\n").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{SITE_URL}/{p}</loc></url>\n" for p in ("", "webinar/", "event/")) + "</urlset>\n")
+print("wrote robots.txt and sitemap.xml")
