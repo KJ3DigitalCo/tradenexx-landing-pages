@@ -1,4 +1,4 @@
-"""Generates webinar/index.html and event/index.html from one template.
+﻿"""Generates webinar/index.html and event/index.html from one template.
 Run:  python build.py
 Edit the CONFIG block and the PAGES copy below, then run again."""
 import os, re, time
@@ -214,7 +214,7 @@ def reg_inner(P, pid, inline):
       {'<button class="btn ghost" type="button" data-reset>Register someone else</button>' if inline else '<button class="btn ghost" type="button" data-close>Close</button>'}
     </div>"""
 
-OGIMG = {"webinar": "zoom2.jpg", "event": "hall.jpg"}
+OGIMG = {"webinar": "alexdesk.jpg", "event": "hall.jpg"}
 ROBOTS = '<meta name="robots" content="noindex, nofollow">' if NOINDEX else '<meta name="robots" content="index, follow, max-image-preview:large">'
 
 def ldjson(key, P):
