@@ -490,8 +490,7 @@
       if (!goodDomain) { err.textContent = 'Invalid email. Please enter your real email address.'; return; }
       d.mobile = fmtMobile(num); d.email = d.email.trim().toLowerCase(); d.name = d.name.trim().replace(/\s+/g, ' ');
       const key = T.product + ':' + num;
-      if (done[key]) { fill(done[key], d.name); toStep('2'); return; }   // same person tapping twice: show their existing code, send nothing
-      const ref = code();
+      const ref = done[key] || code();   // the same person keeps the same code, but is always sent again: a first send that failed quietly must never leave them unrecorded
       const btn = $('button[type=submit]', form); btn.disabled = true; btn.textContent = 'Sending...';
       try {
         if (T.endpoint) {
