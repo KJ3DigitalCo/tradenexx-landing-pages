@@ -7,8 +7,8 @@ ASSET_V = str(int(time.time()))   # cache-buster: changes on every build
 
 # ---------------- CONFIG: fill these in, then re-run ----------------
 SITE_URL      = "https://kj3digitalco.github.io/tradenexx-landing-pages"   # live URL, used by the og tags
-GCASH_NAME    = "To be added"      # account name shown after the form
-GCASH_NUMBER  = "To be added"      # GCash number shown after the form
+GCASH_NAME    = "AL******R U."      # account name shown after the form
+GCASH_NUMBER  = "0917 867 ••••"      # GCash number shown after the form
 # One Google Form (and so one Sheet) per page. Change the endpoint/fields here to point a page somewhere else.
 FORMS = {
     "webinar": {  # online webinar -> "Tradenexx Webinar Registrations"
