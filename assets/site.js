@@ -18,8 +18,9 @@
   const smooth = (p, e0, e1) => { const t = clamp((p - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
-  addEventListener('load', () => requestAnimationFrame(() => document.body.classList.add('ready')));
-  setTimeout(() => document.body.classList.add('ready'), 1200); // never leave the page invisible
+  // fade the page in as soon as the HTML and CSS are ready; waiting for every image and font (the load event) left phones on a blank screen
+  requestAnimationFrame(() => document.body.classList.add('ready'));
+  setTimeout(() => document.body.classList.add('ready'), 600); // never leave the page invisible
 
   /* nav turns solid after the first scroll */
   const nav = $('nav.top'); let navSolid = false;

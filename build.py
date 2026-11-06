@@ -199,7 +199,7 @@ def reg_inner(P, pid, inline):
       <h3>Pay by GCash</h3>
       <p class="lede" style="font-size:14px">Thanks, <span data-name></span>. Scan the code or send to the number, then tap the button below.</p>
       <div class="pay">
-        <div class="qr"><img src="../assets/gcash-qr.png" alt="GCash QR code" onerror="this.replaceWith(document.createTextNode('GCash QR code goes here'))"></div>
+        <div class="qr"><img src="../assets/gcash-qr.png" alt="GCash QR code" loading="lazy" onerror="this.replaceWith(document.createTextNode('GCash QR code goes here'))"></div>
         <dl><div><dt>Amount</dt><dd>₱{PRICE}</dd></div><div><dt>GCash name</dt><dd>{h(GCASH_NAME)}</dd></div><div><dt>GCash number</dt><dd>{h(GCASH_NUMBER)}</dd></div></dl>
       </div>
       <div class="ref">Put this reference code in your GCash message: <b data-ref></b></div>
@@ -259,7 +259,7 @@ def build(key, P):
 <meta property="og:image" content="{SITE_URL}/assets/img/hall.jpg">
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="../assets/site.css?v={ASSET_V}">
 </head>
 <body>
@@ -277,7 +277,7 @@ def build(key, P):
     <div class="vframe">
       <!-- VIDEO: set the link in build.py (VIDEOS) and re-run it. Nothing here needs editing by hand. -->
       <div class="vid" data-state="{vstate}" data-src="{h(vsrc)}">
-        <img class="vid-poster" src="{h(vposter)}" alt="" loading="lazy">
+        <img class="vid-poster" src="{h(vposter)}" alt="" fetchpriority="high" decoding="async">
         <div class="vid-art" aria-hidden="true">{CANDLES_WIDE}</div>
         <button class="vid-play" type="button" aria-label="Play video"{"" if vsrc else " disabled"}>
           <span class="vid-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
