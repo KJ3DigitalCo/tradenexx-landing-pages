@@ -4,6 +4,8 @@
   const T = window.TNX || {};
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  // once the page itself has loaded, quietly fetch the lazy photos too, so the gallery is never blank when scrolled fast
+  addEventListener('load', () => setTimeout(() => $$('img[loading="lazy"]').forEach(i => { i.loading = 'eager'; }), 400));
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
   const smooth = (p, e0, e1) => { const t = clamp((p - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
