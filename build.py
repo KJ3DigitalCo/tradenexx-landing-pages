@@ -449,6 +449,27 @@ for key, P in PAGES.items():
     open(f"{key}/index.html", "w", encoding="utf-8", newline="\n").write(build(key, P))
     print("wrote", f"{key}/index.html")
 
+# thank-you pages (one per product): the checkout sends people here after they pay. Always noindex, never in the sitemap.
+TY = {
+    "webinar": dict(title="Thank you | Tradenexx Online Webinar", eyebrow="Webinar seat reserved",
+        lede="Your seat in the online webinar with Coach Alex is reserved. We will send the schedule and your join details to your mobile number and email once the dates are set.",
+        step2="The schedule and your join link come by text and by email once the dates are set.",
+        step3h="You join from your laptop", step3="Join the live sessions with Coach Alex from your own laptop, from anywhere."),
+    "event": dict(title="Thank you | Tradenexx Live Training", eyebrow="Live training seat reserved",
+        lede="Your seat in the live classroom training with Coach Alex is reserved. We will send the date, venue and your seat details to your mobile number and email once they are set.",
+        step2="The date, venue and your seat details come by text and by email once they are set.",
+        step3h="You come to the classroom", step3="Bring your own laptop and come ready to learn, with help beside you."),
+}
+ty_tpl = open("thankyou.html", encoding="utf-8").read()
+for key, c in TY.items():
+    os.makedirs(f"{key}/thank-you", exist_ok=True)
+    page = ty_tpl
+    for k, v in {"__TITLE__": c["title"], "__EYEBROW__": c["eyebrow"], "__LEDE__": c["lede"], "__STEP2__": c["step2"],
+                 "__STEP3H__": c["step3h"], "__STEP3__": c["step3"], "__RISK__": RISK, "__COMPANY__": COMPANY_LINE}.items():
+        page = page.replace(k, h(v))
+    open(f"{key}/thank-you/index.html", "w", encoding="utf-8", newline="\n").write(page)
+    print("wrote", f"{key}/thank-you/index.html")
+
 # root: the chooser page lives in chooser.html
 chooser = open("chooser.html", encoding="utf-8").read().replace('<meta name="robots" content="noindex, nofollow">', ROBOTS)
 chooser = chooser.replace("</head>", f'''<link rel="canonical" href="{SITE_URL}/">
