@@ -18,6 +18,12 @@
     .replace(/\.\.\/assets\//g, B + '/assets/')
     .replace(/href="\.\/"/g, 'href="#"')
     .replace(/href="\.\.\/(webinar|event)\/"/g, 'href="' + B + '/$1/"');
+  // GHL wraps the element in sections, rows and columns that have side padding and a max width: make them full width and see-through
+  for (var el = root.parentNode; el && el !== document.documentElement; el = el.parentNode) {
+    ['padding', 'margin'].forEach(function (k) { el.style.setProperty(k, '0', 'important'); });
+    el.style.setProperty('max-width', 'none', 'important'); el.style.setProperty('width', '100%', 'important');
+    el.style.setProperty('background', 'transparent', 'important'); el.style.setProperty('overflow', 'visible', 'important');
+  }
   for (var i = 0; i < scripts.length; i++) {
     await new Promise(function (done) {
       var s = scripts[i], n = document.createElement('script'), src = s.getAttribute('src');
