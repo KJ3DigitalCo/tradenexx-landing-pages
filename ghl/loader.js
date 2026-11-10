@@ -17,9 +17,11 @@
   var qs0 = me ? new URL(me.src).searchParams : new URLSearchParams();
   var root = document.getElementById('tnx-app') || document.body;
   root.innerHTML = d.body.innerHTML
-    .replace(/\.\.\/assets\//g, B + '/assets/')
+    .replace(/(?:\.\.\/)+assets\//g, B + '/assets/')
     .replace(/href="\.\/"/g, 'href="#"')
+    .replace(/href="(?:\.\.\/)+"/g, 'href="#"')
     .replace(/href="\.\.\/(webinar|event)\/"/g, 'href="' + B + '/$1/"');
+  document.documentElement.style.overflowX = 'clip';   // the full-width breakout would otherwise add a sideways scrollbar
   // ?form=1: checkout layout on the SAME page. The GHL order form stays exactly where GHL renders it (moving it breaks it);
   // instead the column around it becomes a grid: [our page] / [price card | What you get] / [order form | What you get] / [footer]
   if (qs0.get('form')) {
