@@ -28,7 +28,7 @@
     var inner = ow && ow.parentNode;
     if (ow && foot && inner) {
       var esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
-      var facts = [].map.call(root.querySelectorAll('li'), function (li) { return li.textContent.trim(); }).map(function (t) { var m = t.match(/^₱\s?[\d,]+/); return m ? m[0] : ''; }).filter(Boolean);
+      var facts = [].map.call(root.querySelectorAll('li'), function (li) { return li.textContent.trim(); }).map(function (t) { var m = t.match(/^₱\s?\d+(?:,\d{3})*/); return m ? m[0] : ''; }).filter(Boolean);
       var items = [].map.call(root.querySelectorAll('ul.incl li'), function (li) {
         var b = li.querySelector('b'), s = li.querySelector('small');
         return { t: b && b.firstChild ? b.firstChild.textContent : '', d: s ? s.textContent : '' };   // the title only: some titles carry a decorative bot icon
