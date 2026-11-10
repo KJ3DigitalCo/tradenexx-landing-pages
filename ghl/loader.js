@@ -19,17 +19,28 @@
     .replace(/\.\.\/assets\//g, B + '/assets/')
     .replace(/href="\.\/"/g, 'href="#"')
     .replace(/href="\.\.\/(webinar|event)\/"/g, 'href="' + B + '/$1/"');
-  // GHL wraps the element in sections, rows and columns that have side padding and a max width: make them full width and see-through
-  for (var el = root.parentNode; el && el !== document.documentElement; el = el.parentNode) {
-    ['padding', 'margin'].forEach(function (k) { el.style.setProperty(k, '0', 'important'); });
-    el.style.setProperty('max-width', 'none', 'important'); el.style.setProperty('width', '100%', 'important');
-    el.style.setProperty('background', 'transparent', 'important'); el.style.setProperty('overflow', 'visible', 'important');
-  }
+  // GHL wraps the element in a narrow, padded column: let our page break out to the full screen width without touching the column (the order form shares it)
+  for (var el = root.parentNode; el && el !== document.documentElement; el = el.parentNode) el.style.setProperty('overflow', 'visible', 'important');
+  root.style.cssText = 'display:block;width:100vw;position:relative;left:50%;margin-left:-50vw';
   // optional ?co=URL: every "Reserve your seat" button goes to the checkout page instead of opening the popup form
-  var co = me && new URL(me.src).searchParams.get('co');
+  var qs = me ? new URL(me.src).searchParams : new URLSearchParams();
+  var co = qs.get('co');
   if (co) root.querySelectorAll('[data-join]').forEach(function (b) {
     b.addEventListener('click', function (e) { e.preventDefault(); e.stopImmediatePropagation(); location.href = co; }, true);
   });
+  // ?form=1: the GHL order form sits on this same page, so our own popup and sign-up card are hidden and every button scrolls to the order form
+  if (qs.get('form')) {
+    var st = document.createElement('style');
+    st.textContent = 'dialog.reg,.reg-inline{display:none!important}.final-grid{grid-template-columns:minmax(0,1fr)!important;justify-items:center;text-align:center}.final h2,.final .lede{text-align:center!important;margin-inline:auto!important}.final-points{justify-items:center}';
+    document.head.appendChild(st);
+    root.querySelectorAll('[data-join]').forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        var f = document.querySelector('.c-order-form') || document.querySelector('[class*="order-form"]');
+        if (f) f.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, true);
+    });
+  }
   for (var i = 0; i < scripts.length; i++) {
     await new Promise(function (done) {
       var s = scripts[i], n = document.createElement('script'), src = s.getAttribute('src');
