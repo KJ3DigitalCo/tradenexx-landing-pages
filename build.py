@@ -92,7 +92,6 @@ PAGES = {
     mods_p="Each session builds on the last, from first install to everyday habits.",
     incl=[("4 live group webinars", "Two hours each, taught live"),
           ("30 days free use of Tradenexx systems", "Try the tools before you decide anything"),
-          ("47-page Traders Beginners Playbook", "Yours to keep"),
           ("Ebook Vol. 2: Financial Trading for Competitive Individuals", "A 47-page workbook with review questions and notes pages"),
           ("1 month of 1-on-1 coaching on Zoom", "Ask your own questions"),
           ("Access to the Traders Community", "Learn alongside other Filipino traders")],
@@ -109,7 +108,7 @@ PAGES = {
          ("When are the sessions?", "Dates are announced soon. People who register hear first."),
          ("How do I pay?", "By GCash, right after the form. You get a QR code and a reference code.")],
     final_h="Learn the system. Then decide for yourself.",
-    final_p="Four live sessions, a playbook, an ebook, and a month of coaching for ₱500."),
+    final_p="Four live sessions, an ebook, and a month of coaching for ₱500."),
  "event": dict(
     title="Live Trading Training Philippines | Tradenexx with Coach Alex Uy",
     desc="An 8-hour live classroom training with Coach Alex Uy. Bring your laptop, learn MT5, risk and automated trading in person. Just 500 pesos.",
@@ -122,7 +121,6 @@ PAGES = {
     mods_p="The same foundations, taught in the room with hands-on help.",
     incl=[("8-hour live training", "A full classroom session with Coach Alex"),
           ("30 days free use of Tradenexx systems", "Try the tools before you decide anything"),
-          ("47-page Traders Beginners Playbook", "Yours to keep"),
           ("Ebook Vol. 2: Financial Trading for Competitive Individuals", "A 47-page workbook with review questions and notes pages"),
           ("1 month of 1-on-1 coaching on Zoom", "Ask your own questions after the day"),
           ("Access to the Traders Community", "Learn alongside other Filipino traders")],
@@ -138,7 +136,7 @@ PAGES = {
          ("Will I earn money?", "We cannot promise that, and anyone who does is a red flag. Trading can lose money, and past results never guarantee future ones. You learn how to manage risk and judge claims for yourself."),
          ("Can I join the online webinar instead?", "Yes. There is a separate 4-session online webinar for the same price. You can find it from the link at the bottom of this page.")],
     final_h="One day in the room can change how you trade.",
-    final_p="Eight hours, a playbook, an ebook, and a month of coaching for ₱500."),
+    final_p="Eight hours, an ebook, and a month of coaching for ₱500."),
 }
 
 import json
@@ -153,7 +151,7 @@ def split_title(t):
 FAN_ALT = {"hall": "A full training hall at a past Tradenexx event", "selfie": "Coach Alex taking a selfie with a full room of attendees",
            "workshop": "Attendees working on laptops during a live session", "laptops": "Close view of traders at their laptops",
            "group": "Group photo after a live training", "class": "A classroom of attendees",
-           "award": "Coach Alex receiving an award in Dubai", "cert": "Best Forex CEO 2024 certificate from WikiFX", "playbook": "Attendees holding up the Traders Beginners Playbook after a live session",
+           "award": "Coach Alex receiving an award in Dubai", "cert": "Best Forex CEO 2024 certificate from WikiFX", "playbook": "Attendees holding up their Tradenexx books after a live session",
            "deskselfie": "Coach Alex giving a thumbs up at his desk before a live webinar",
            "zoom1": "Coach Alex and attendees waving during a live Zoom session", "zoom2": "A full Zoom room of attendees during a Tradenexx webinar",
            "zoom3": "Coach Alex and attendees on a live Zoom call", "zoom4": "A Zoom Workplace session with attendees from across the Philippines",
