@@ -11,6 +11,7 @@
     var u = l.getAttribute('href'); if (!u) return;
     var a = document.createElement('link'); a.rel = 'stylesheet'; a.href = new URL(u, base).href; document.head.appendChild(a);
   });
+  d.querySelectorAll('head style').forEach(function (s) { document.head.appendChild(s.cloneNode(true)); });   // pages that use inline CSS (the thank-you page)
   var scripts = [].slice.call(d.body.querySelectorAll('script'));
   scripts.forEach(function (s) { s.parentNode.removeChild(s); });
   var root = document.getElementById('tnx-app') || document.body;
@@ -24,6 +25,11 @@
     el.style.setProperty('max-width', 'none', 'important'); el.style.setProperty('width', '100%', 'important');
     el.style.setProperty('background', 'transparent', 'important'); el.style.setProperty('overflow', 'visible', 'important');
   }
+  // optional ?co=URL: every "Reserve your seat" button goes to the checkout page instead of opening the popup form
+  var co = me && new URL(me.src).searchParams.get('co');
+  if (co) root.querySelectorAll('[data-join]').forEach(function (b) {
+    b.addEventListener('click', function (e) { e.preventDefault(); e.stopImmediatePropagation(); location.href = co; }, true);
+  });
   for (var i = 0; i < scripts.length; i++) {
     await new Promise(function (done) {
       var s = scripts[i], n = document.createElement('script'), src = s.getAttribute('src');
