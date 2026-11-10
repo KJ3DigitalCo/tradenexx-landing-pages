@@ -1,4 +1,4 @@
-﻿"""Generates webinar/index.html and event/index.html from one template.
+"""Generates webinar/index.html and event/index.html from one template.
 Run:  python build.py
 Edit the CONFIG block and the PAGES copy below, then run again."""
 import os, re, time
@@ -93,6 +93,7 @@ PAGES = {
     incl=[("4 live group webinars", "Two hours each, taught live"),
           ("30 days free use of Tradenexx systems", "Try the tools before you decide anything"),
           ("47-page Traders Beginners Playbook", "Yours to keep"),
+          ("Ebook Vol. 2: Financial Trading for Competitive Individuals", "A 47-page workbook with review questions and notes pages"),
           ("1 month of 1-on-1 coaching on Zoom", "Ask your own questions"),
           ("Access to the Traders Community", "Learn alongside other Filipino traders")],
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
@@ -108,7 +109,7 @@ PAGES = {
          ("When are the sessions?", "Dates are announced soon. People who register hear first."),
          ("How do I pay?", "By GCash, right after the form. You get a QR code and a reference code.")],
     final_h="Learn the system. Then decide for yourself.",
-    final_p="Four live sessions, a playbook, and a month of coaching for ₱500."),
+    final_p="Four live sessions, a playbook, an ebook, and a month of coaching for ₱500."),
  "event": dict(
     title="Live Trading Training Philippines | Tradenexx with Coach Alex Uy",
     desc="An 8-hour live classroom training with Coach Alex Uy. Bring your laptop, learn MT5, risk and automated trading in person. Just 500 pesos.",
@@ -122,6 +123,7 @@ PAGES = {
     incl=[("8-hour live training", "A full classroom session with Coach Alex"),
           ("30 days free use of Tradenexx systems", "Try the tools before you decide anything"),
           ("47-page Traders Beginners Playbook", "Yours to keep"),
+          ("Ebook Vol. 2: Financial Trading for Competitive Individuals", "A 47-page workbook with review questions and notes pages"),
           ("1 month of 1-on-1 coaching on Zoom", "Ask your own questions after the day"),
           ("Access to the Traders Community", "Learn alongside other Filipino traders")],
     offer_h="Everything in one ₱500.", offer_p="One payment. No hidden fees. No money handed over for trading.",
@@ -136,7 +138,7 @@ PAGES = {
          ("Will I earn money?", "We cannot promise that, and anyone who does is a red flag. Trading can lose money, and past results never guarantee future ones. You learn how to manage risk and judge claims for yourself."),
          ("Can I join the online webinar instead?", "Yes. There is a separate 4-session online webinar for the same price. You can find it from the link at the bottom of this page.")],
     final_h="One day in the room can change how you trade.",
-    final_p="Eight hours, a playbook, and a month of coaching for ₱500."),
+    final_p="Eight hours, a playbook, an ebook, and a month of coaching for ₱500."),
 }
 
 import json
