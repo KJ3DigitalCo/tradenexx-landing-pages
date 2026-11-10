@@ -28,7 +28,7 @@
     var inner = ow && ow.parentNode;
     if (ow && foot && inner) {
       var esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
-      var facts = [].map.call(root.querySelectorAll('ul.facts li'), function (li) { return li.textContent.trim(); });
+      var facts = [].map.call(root.querySelectorAll('li'), function (li) { return li.textContent.trim(); }).filter(function (t) { return /^₱\s?\d/.test(t); });
       var items = [].map.call(root.querySelectorAll('ul.incl li'), function (li) {
         var b = li.querySelector('b'), s = li.querySelector('small');
         return { t: b ? b.textContent : '', d: s ? s.textContent : '' };
