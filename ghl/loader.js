@@ -14,11 +14,18 @@
   d.querySelectorAll('head style').forEach(function (s) { document.head.appendChild(s.cloneNode(true)); });   // pages that use inline CSS (the thank-you page)
   var scripts = [].slice.call(d.body.querySelectorAll('script'));
   scripts.forEach(function (s) { s.parentNode.removeChild(s); });
+  var qs0 = me ? new URL(me.src).searchParams : new URLSearchParams();
   var root = document.getElementById('tnx-app') || document.body;
   root.innerHTML = d.body.innerHTML
     .replace(/\.\.\/assets\//g, B + '/assets/')
     .replace(/href="\.\/"/g, 'href="#"')
     .replace(/href="\.\.\/(webinar|event)\/"/g, 'href="' + B + '/$1/"');
+  // ?form=1: put our page ABOVE the GHL order form that lives in the same column (no need to drag elements around in the builder)
+  if (qs0.get('form')) {
+    var of = document.querySelector('.c-order-form') || document.querySelector('[class*="order-form"]');
+    var ow = of && (of.closest('.c-wrapper') || of);
+    if (ow && ow.parentNode) ow.parentNode.insertBefore(root, ow);
+  }
   // GHL wraps the element in a narrow, padded column: let our page break out to the full screen width without touching the column (the order form shares it)
   for (var el = root.parentNode; el && el !== document.documentElement; el = el.parentNode) el.style.setProperty('overflow', 'visible', 'important');
   root.style.cssText = 'display:block;width:100vw;position:relative;left:50%;margin-left:-50vw';
