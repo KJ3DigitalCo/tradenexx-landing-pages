@@ -20,11 +20,15 @@
     .replace(/\.\.\/assets\//g, B + '/assets/')
     .replace(/href="\.\/"/g, 'href="#"')
     .replace(/href="\.\.\/(webinar|event)\/"/g, 'href="' + B + '/$1/"');
-  // ?form=1: put our page ABOVE the GHL order form that lives in the same column (no need to drag elements around in the builder)
+  // ?form=1: the GHL order form lives in the same builder column; move it into our page, between the last section and the footer
   if (qs0.get('form')) {
     var of = document.querySelector('.c-order-form') || document.querySelector('[class*="order-form"]');
-    var ow = of && (of.closest('.c-wrapper') || of);
-    if (ow && ow.parentNode) ow.parentNode.insertBefore(root, ow);
+    var ow = of && (of.closest('.c-wrapper') || of), foot = root.querySelector('footer');
+    if (ow && foot) {
+      var sec = document.createElement('section'), box = document.createElement('div');
+      sec.id = 'tnx-checkout'; sec.style.cssText = 'background:#050d26;padding:8px 16px 72px;display:flex;justify-content:center';
+      box.style.cssText = 'width:min(600px,100%)'; box.appendChild(ow); sec.appendChild(box); foot.parentNode.insertBefore(sec, foot);
+    }
   }
   // GHL wraps the element in a narrow, padded column: let our page break out to the full screen width without touching the column (the order form shares it)
   for (var el = root.parentNode; el && el !== document.documentElement; el = el.parentNode) el.style.setProperty('overflow', 'visible', 'important');
@@ -43,7 +47,7 @@
     root.querySelectorAll('[data-join]').forEach(function (b) {
       b.addEventListener('click', function (e) {
         e.preventDefault(); e.stopImmediatePropagation();
-        var f = document.querySelector('.c-order-form') || document.querySelector('[class*="order-form"]');
+        var f = document.getElementById('tnx-checkout') || document.querySelector('.c-order-form');
         if (f) f.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, true);
     });
